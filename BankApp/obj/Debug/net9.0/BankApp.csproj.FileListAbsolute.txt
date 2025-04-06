@@ -95,3 +95,4 @@ C:\Users\witol\Desktop\csharp\BankApp\BankApp\BankApp\obj\Debug\net9.0\refint\Ba
 C:\Users\witol\Desktop\csharp\BankApp\BankApp\BankApp\obj\Debug\net9.0\BankApp.pdb
 C:\Users\witol\Desktop\csharp\BankApp\BankApp\BankApp\obj\Debug\net9.0\BankApp.genruntimeconfig.cache
 C:\Users\witol\Desktop\csharp\BankApp\BankApp\BankApp\obj\Debug\net9.0\ref\BankApp.dll
+C:\Users\witol\Desktop\csharp\BankApp\BankApp\BankApp\obj\Debug\net9.0\BankApp.sourcelink.json
