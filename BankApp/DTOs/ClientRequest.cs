@@ -1,9 +1,14 @@
-﻿namespace BankApp.DTOs
+﻿namespace BankApp.DTOs;
+
+public class ClientRequest
 {
-    public class ClientRequest
-    {
-        public string Login { get; set; }  // Zmienione z Name na Login
-        public long UserId { get; set; }  // Zmienione z Name na Login
-        public string Password { get; set; }  // Dodano pole Password
-    }
+    public long UserId { get; set; }
+    public string Login { get; set; }
+    public string Password { get; set; }
+
+    // public ClientRequest(string login, string password)
+    // {
+    //     Login = login;
+    //     Password = password;
+    // }
 }

@@ -1,39 +1,39 @@
 ﻿using BankApp.Models;
-using System.Linq;
+using BankApp.Data;
 
-namespace BankApp.Repositories
+namespace BankApp.Repositories;
+
+public interface IAccountRepository
 {
-    public interface IAccountRepository
+    void Save(Account account);
+    Account FindById(long id);
+}
+
+public class AccountRepository : IAccountRepository
+{
+    private readonly ApplicationDbContext _context;
+
+    public AccountRepository(ApplicationDbContext context)
     {
-        void Save(Account account);
-        Account FindById(long id);
+        _context = context;
     }
 
-    public class AccountRepository : IAccountRepository
+    public void Save(Account account)
     {
-        private readonly ApplicationDbContext _context;
-
-        public AccountRepository(ApplicationDbContext context)
+        if (account.AccountId == 0)
         {
-            _context = context;
+            _context.Accounts.Add(account);
+        }
+        else
+        {
+            _context.Accounts.Update(account);
         }
 
-        public void Save(Account account)
-        {
-            if (account.AccountId == 0)
-            {
-                _context.Accounts.Add(account);
-            }
-            else
-            {
-                _context.Accounts.Update(account);
-            }
-            _context.SaveChanges();
-        }
+        _context.SaveChanges();
+    }
 
-        public Account FindById(long id)
-        {
-            return _context.Accounts.FirstOrDefault(a => a.AccountId == id);
-        }
+    public Account FindById(long id)
+    {
+        return _context.Accounts.FirstOrDefault(a => a.AccountId == id);
     }
 }
