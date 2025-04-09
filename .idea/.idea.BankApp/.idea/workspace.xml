@@ -9,52 +9,112 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="13293fb7-18b0-491b-acbf-bf8cd8bbbab2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/BankApp/Controllers/AccountController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BankApp/Controllers/ClientController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BankApp/Controllers/HomeController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BankApp/DTOs/AccountRequest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BankApp/DTOs/AccountResponse.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BankApp/DTOs/ClientRequest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BankApp/DTOs/ClientResponse.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BankApp/Data/ApplicationDbContext.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BankApp/Models/Account.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BankApp/Models/Client.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BankApp/Repositories/AccountRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BankApp/Repositories/ClientRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BankApp/Repositories/IClientRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BankApp/Services/AccountService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BankApp/Services/ClientService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BankApp/Views/Home/CreateClient.cshtml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BankApp/Views/Home/Login.cshtml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BankApp/Views/Home/Register.cshtml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/global.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.BankApp/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BankApp/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.BankApp/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BankApp/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankApp/BankApp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BankApp/BankApp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankApp/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankApp/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankApp/Views/Home/Index.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankApp/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/BankApp/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankApp/bin/Debug/net9.0/BankApp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/BankApp/bin/Debug/net9.0/BankApp.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankApp/bin/Debug/net9.0/BankApp.exe" beforeDir="false" afterPath="$PROJECT_DIR$/BankApp/bin/Debug/net9.0/BankApp.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankApp/bin/Debug/net9.0/BankApp.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/BankApp/bin/Debug/net9.0/BankApp.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankApp/obj/BankApp.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/BankApp/obj/BankApp.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankApp/obj/BankApp.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/BankApp/obj/BankApp.csproj.nuget.g.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankApp/obj/BankApp.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/BankApp/obj/BankApp.csproj.nuget.g.targets" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.AssemblyInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.assets.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.csproj.FileListAbsolute.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/apphost.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/ref/BankApp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/ref/BankApp.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/refint/BankApp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/refint/BankApp.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankApp/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/BankApp/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankApp/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/BankApp/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankApp/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/BankApp/obj/project.packagespec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankApp/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/BankApp/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.BankApp/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.BankApp/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.BankApp/.idea/indexLayout.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.BankApp/.idea/projectSettingsUpdater.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.BankApp/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.BankApp/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/BankApp.csproj.nuget.dgspec.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/BankApp.csproj.nuget.g.props" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/BankApp.csproj.nuget.g.targets" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/.NETCoreApp,Version=v9.0.AssemblyAttributes.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.AssemblyInfo.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.AssemblyInfoInputs.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.GlobalUsings.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.MvcApplicationPartsAssemblyInfo.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.RazorAssemblyInfo.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.RazorAssemblyInfo.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.assets.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.csproj.CoreCompileInputs.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.csproj.FileListAbsolute.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.genruntimeconfig.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/BankApp.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/apphost.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/0oa1db6rc0-4094rpi4f9.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/1vbegwe9mq-94eajug5bw.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/25hu67tyy1-hd3gran6i8.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/3w643ee29y-rxsg74s51o.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/4gmo5q0teb-ttgo8qnofa.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/4sb79frbtb-mrlpezrjn3.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/5cuc4noy8c-worgj0nhwm.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/6b5obva0g0-y7v9cxd14o.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/6b9mnju7ba-keugtjm085.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/7cfcr0nuqh-b9sayid5wm.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/7kbr9d0wdz-j5mq2jizvt.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/7pn49daadl-x0q3zqp4vz.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/83957cdjn9-d4r6k3f320.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/8661pfvvc2-gk0pw8i4co.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/8gk1vwkfet-ynyaa8k90p.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/91fht7puh0-8vyfqsqgz1.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/931k59ysx6-d6nrnj6jjx.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/9j87igikvh-c63t5i9ira.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/9pmzuyicvn-356vix0kms.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/a70n7j30kr-pj5nd1wqec.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/ahdlmgh9tk-xtxxf3hu2r.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/ay3um6rmpn-sejl45xvog.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/b446i92xv5-43atpzeawx.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/bb8c0n5t4a-22vffe00uq.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/cxv6e0zkjj-87fc7y1x7t.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/fzzngql7as-t1cqhe9u97.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/gar9gbydx8-ausgxo2sd3.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/gktmy228ox-v0zj4ognzu.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/gpuxbfl10x-cosvhxvwiu.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/i3o0zc2lny-mlv21k5csn.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/icg4lv7sqe-q9ht133ko3.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/ikut3uwx5q-ee0r1s7dh0.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/ksvha7lc7e-wl58j5mj3v.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/lgr0f72bfs-iovd86k7lj.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/ljyze438nc-h1s4sie4z3.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/lmsjqoxgs9-u9q1upor1n.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/lnfz6cnd0d-kbrnm935zg.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/m17jgyitrh-jjsuc0puko.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/m59l7opfke-aexeepp0ev.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/m8hqwxs6z6-gye83jo8yx.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/mp4sxqp3pe-qesaa3a1fm.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/mzgni8vp36-r4e9w2rdcm.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/nfs7xstfzn-zub09dkrxp.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/nhdwf795ej-ft3s53vfgj.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/npzroy7cs5-hrwsygsryq.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/ntbv54v5yv-c2jlpeoesf.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/odlz5pmk7u-fvhpjtyr6v.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/p5ee1ykb0t-m9qm4tazc0.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/pk2a3bcpq0-ltid2c489k.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/pn12f14hqe-9vr69e8ynj.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/qnhbcv4876-xvp3kq03qx.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/qp962ms3z0-03hjc8e09r.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/sgqhj43xnb-0j3bgjxly4.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/t3zkfyl57m-83jwlth58m.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/tv54wj28n4-6pdc2jztkx.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/tz33tn3e49-c2oey78nd0.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/tzd82b8j1t-tmc1g35s3z.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/u8ix16xlkt-48y08845bh.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/ud9lpsx2de-4d85u1mtcx.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/uzaya59oe9-61n19gt1b8.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/vq9uaf365g-jd9uben2k1.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/w11khxixo9-94eajug5bw.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/xui7e9zbs1-nvvlpmu67g.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/compressed/z7l0xznysh-fsbi9cje9m.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/ref/BankApp.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/refint/BankApp.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/scopedcss/Views/Shared/_Layout.cshtml.rz.scp.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/scopedcss/bundle/BankApp.styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/scopedcss/projectbundle/BankApp.bundle.scp.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/staticwebassets.build.endpoints.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/staticwebassets.build.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/staticwebassets.development.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/staticwebassets.pack.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/staticwebassets/msbuild.BankApp.Microsoft.AspNetCore.StaticWebAssetEndpoints.props" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/staticwebassets/msbuild.BankApp.Microsoft.AspNetCore.StaticWebAssets.props" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/staticwebassets/msbuild.build.BankApp.props" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/staticwebassets/msbuild.buildMultiTargeting.BankApp.props" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/Debug/net9.0/staticwebassets/msbuild.buildTransitive.BankApp.props" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/project.assets.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/project.nuget.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/project.packagespec.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankApp/obj/rider.project.restore.info" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,12 +133,12 @@
     &quot;assignee&quot;: &quot;witek171&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/witek171/BankApp.git&quot;,
-    &quot;accountId&quot;: &quot;3d793cbc-5ed6-4050-a42e-270eea7f485c&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/witek171/BankApp.git",
+    "accountId": "066c2fdf-9e8c-48c9-8b6c-bc5ea96abefd"
   }
-}</component>
+}]]></component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -90,21 +150,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET Launch Settings Profile.BankApp: http.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.sourceCode.C#",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Launch Settings Profile.BankApp: http.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.C#&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Launch Settings Profile.BankApp: http">
     <configuration name="BankApp: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/BankApp/BankApp.csproj" />
@@ -147,6 +207,7 @@
       <updated>1743964854971</updated>
       <workItem from="1743964856147" duration="3347000" />
       <workItem from="1743968950183" duration="4726000" />
+      <workItem from="1744232990944" duration="295000" />
     </task>
     <servers />
   </component>
