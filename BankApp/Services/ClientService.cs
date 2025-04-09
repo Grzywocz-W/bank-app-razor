@@ -2,36 +2,34 @@
 using BankApp.Models;
 using BankApp.Repositories;
 
+namespace BankApp.Services;
+
 public class ClientService
 {
     private readonly IClientRepository _clientRepository;
-    private readonly ILogger<ClientService> _logger;
 
-    public ClientService(IClientRepository clientRepository, ILogger<ClientService> logger)
+    public ClientService(IClientRepository clientRepository)
     {
         _clientRepository = clientRepository;
-        _logger = logger;
     }
 
     // Asynchroniczna metoda do zapisu nowego klienta
-    public void  Save(ClientRequest clientRequest)
+    public void Save(ClientRequest clientRequest)
     {
         var client = new Client
         {
             // UserId = Guid.NewGuid(),  // Używamy unikalnego identyfikatora dla użytkownika
             Login = clientRequest.Login,
-            Password = clientRequest.Password  // Pamiętaj, żeby w prawdziwej aplikacji hasło było haszowane
+            Password = clientRequest.Password // Pamiętaj, żeby w prawdziwej aplikacji hasło było haszowane
         };
 
         // Dodajemy klienta do repozytorium
-         _clientRepository.Save(client);
+        _clientRepository.Save(client);
     }
 
     public ClientResponse FindResponseByEmail(string login)
     {
-        var client = _clientRepository.FindByLogin(login);  // Używamy Login zamiast Email
-        if (client == null)
-            return null;
+        var client = _clientRepository.FindByLogin(login); // Używamy Login zamiast Email
 
         return new ClientResponse(client.UserId, client.Login, client.Accounts.Select(a => a.AccountId).ToList(),
             client.Password);
@@ -39,7 +37,7 @@ public class ClientService
 
     public void RemoveByLogin(string login)
     {
-        var client = _clientRepository.FindByLogin(login);  // Używamy Login zamiast Email
+        var client = _clientRepository.FindByLogin(login); // Używamy Login zamiast Email
         if (client == null)
         {
             throw new Exception("Client not found");

@@ -1,79 +1,84 @@
 ﻿using BankApp.DTOs;
 using BankApp.Services;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
-namespace BankApp.Controllers
+namespace BankApp.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class AccountController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AccountController : ControllerBase
+    private readonly AccountService _service;
+
+    public AccountController(AccountService service)
     {
-        private readonly AccountService _service;
+        _service = service;
+    }
 
-        public AccountController(AccountService service)
+    // Endpoint do tworzenia konta
+    [HttpPost]
+    public IActionResult CreateAccount([FromBody] AccountRequest account)
+    {
+        try
         {
-            _service = service;
+            _service.Save(account);
+            return StatusCode(201);
         }
-
-        // Endpoint do tworzenia konta
-        [HttpPost]
-        public IActionResult CreateAccount([FromBody] AccountRequest account)
+        catch (Exception ex)
         {
-            try
-            {
-                _service.Save(account);
-                return StatusCode(201); // Status 201 - Created
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
+            return BadRequest($"Error: {ex.Message}");
         }
+    }
 
-        // Endpoint do wyszukiwania konta po ID
-        [HttpGet]
-        public IActionResult GetAccountById([FromQuery] long id)
+    // Endpoint do wyszukiwania konta po ID
+    [HttpGet]
+    public IActionResult GetAccountById([FromQuery] long id)
+    {
+        try
         {
-            try
-            {
-                var account = _service.FindById(id);
-                return Ok(account);  // Status 200 - OK
-            }
-            catch (Exception ex)
-            {
-                return NotFound($"Error: {ex.Message}"); // Status 404 - Not Found
-            }
+            var account = _service.FindById(id);
+            return Ok(account);
         }
-
-        // Endpoint do przelewu między kontami
-        [HttpPost("transfer")]
-        public IActionResult Transfer([FromQuery] long fromId, [FromQuery] long toId, [FromQuery] double amount)
+        catch (Exception ex)
         {
-            try
-            {
-                _service.Transfer(fromId, toId, amount);
-                return NoContent();  // Status 204 - No Content
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}"); // Status 400 - Bad Request
-            }
+            return NotFound($"Error: {ex.Message}");
         }
+    }
 
-        // Endpoint do wypłaty z konta
-        [HttpPost("withdraw")]
-        public IActionResult Withdraw([FromQuery] long id, [FromQuery] double amount)
+    // Endpoint do przelewu między kontami
+    [HttpPost("transfer")]
+    public IActionResult Transfer(
+        [FromQuery] long fromId,
+        [FromQuery] long toId,
+        [FromQuery] decimal amount
+    )
+    {
+        try
         {
-            try
-            {
-                _service.WithDraw(id, amount);
-                return NoContent();  // Status 204 - No Content
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}"); // Status 400 - Bad Request
-            }
+            _service.Transfer(fromId, toId, amount);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest($"Error: {ex.Message}");
+        }
+    }
+
+    // Endpoint do wypłaty z konta
+    [HttpPost("withdraw")]
+    public IActionResult Withdraw(
+        [FromQuery] long id,
+        [FromQuery] decimal amount
+    )
+    {
+        try
+        {
+            _service.WithDraw(id, amount);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest($"Error: {ex.Message}");
         }
     }
 }

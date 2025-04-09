@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using BankApp.Models;
+﻿using BankApp.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace BankApp.Data;
 
 public class ApplicationDbContext : DbContext
 {

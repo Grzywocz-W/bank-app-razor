@@ -1,7 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BankApp.Data;
 using BankApp.Models;
-using System.Threading.Tasks;
-using BankApp.Repositories;
+
+namespace BankApp.Repositories;
+
+public interface IClientRepository
+{
+    Client FindByLogin(string login);
+    void Save(Client client);
+    void Delete(Client client);
+}
 
 public class ClientRepository : IClientRepository
 {
