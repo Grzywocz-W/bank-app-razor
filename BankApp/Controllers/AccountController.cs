@@ -7,12 +7,10 @@ namespace BankApp.Controllers;
 public class AccountController : Controller
 {
     private readonly AccountService _service;
-    private readonly ClientService _clientService;
 
-    public AccountController(AccountService service, ClientService clientService)
+    public AccountController(AccountService service)
     {
         _service = service;
-        _clientService = clientService;
     }
 
     [HttpGet("create")]
@@ -30,13 +28,13 @@ public class AccountController : Controller
             if (clientId == null)
             {
                 TempData["Error"] = "You must be logged in to create an account.";
-                return RedirectToAction("Login", "Client");
+                return RedirectToAction("Login", "Home");
             }
 
             accountRequest.ClientId = long.Parse(clientId);
 
             await _service.SaveAsync(accountRequest);
-            return RedirectToAction("MyAccounts");
+            return RedirectToAction("MyAccounts","Client");
         }
         catch (Exception ex)
         {
@@ -45,18 +43,7 @@ public class AccountController : Controller
         }
     }
 
-    [HttpGet("myaccounts")]
-    public async Task<IActionResult> MyAccounts()
-    {
-        var clientId = HttpContext.Session.GetString("ClientId");
-        if (clientId == null)
-            return RedirectToAction("Login", "Client");
-
-        var client = await _clientService.FindByIdAsync(long.Parse(clientId));
-        ViewData["ClientId"] = clientId;
-        
-        return View(client.Accounts);
-    } 
+    
   
     [HttpPost("transfer")]
     public async Task<IActionResult> Transfer([FromForm] long fromId, [FromForm] long toId, [FromForm] decimal amount)
@@ -65,18 +52,18 @@ public class AccountController : Controller
         if (clientId == null)
         {
             TempData["Error"] = "You must be logged in to perform this action.";
-            return RedirectToAction("Login", "Client");
+            return RedirectToAction("Login", "Home");
         }
 
         try
         {
             await _service.TransferAsync(fromId, toId, amount);
-            return RedirectToAction("MyAccounts");
+            return RedirectToAction("MyAccounts", "Client");
         }
         catch (Exception ex)
         {
             TempData["Error"] = $"Error: {ex.Message}";
-            return RedirectToAction("MyAccounts");
+            return RedirectToAction("MyAccounts", "Client");
         }
     }
 
@@ -86,27 +73,27 @@ public class AccountController : Controller
         try
         {
             await _service.WithdrawAsync(id, amount);
-            return RedirectToAction("MyAccounts");
+            return RedirectToAction("MyAccounts", "Client");
         }
         catch (Exception ex)
         {
             TempData["Error"] = $"Error: {ex.Message}";
-            return RedirectToAction("MyAccounts");
+            return RedirectToAction("MyAccounts", "Client");
         }
     }
 
-    [HttpPost("delete")]
+    [HttpPost("account/delete")]
     public async Task<IActionResult> DeleteAccount([FromForm] long accountId)
     {
         try
         {
             await _service.DeleteAsync(accountId);
-            return RedirectToAction("MyAccounts");
+            return RedirectToAction("MyAccounts", "Client");
         }
         catch (Exception ex)
         {
             TempData["Error"] = $"Error: {ex.Message}";
-            return RedirectToAction("MyAccounts");
+            return RedirectToAction("MyAccounts", "Client");
         }
     }
 }
