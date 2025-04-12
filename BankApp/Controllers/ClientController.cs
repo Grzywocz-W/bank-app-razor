@@ -1,5 +1,4 @@
 ﻿using BankApp.DTOs;
-using BankApp.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankApp.Controllers;
@@ -7,42 +6,51 @@ namespace BankApp.Controllers;
 public class ClientController : Controller
 {
     private readonly ClientService _clientService;
-    private readonly ILogger<ClientController> _logger;
 
-    public ClientController(ClientService clientService, ILogger<ClientController> logger)
+    public ClientController(ClientService clientService)
     {
         _clientService = clientService;
-        _logger = logger;
     }
 
-    // Akcja POST do tworzenia nowego klienta
-    [HttpPost]
-    public IActionResult CreateClient(string login, string password)
+    [HttpGet("register")]
+    public IActionResult Register() => View();
+
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromForm] ClientRequest clientRequest)
     {
         try
         {
-            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
-            {
-                ModelState.AddModelError("", "Login i hasło są wymagane.");
-                return View();
-            }
-
-            var clientRequest = new ClientRequest
-            {
-                Login = login,
-                Password = password
-            };
-
-            _clientService.Save(clientRequest);
-
-            ViewData["SuccessMessage"] = "Klient został pomyślnie utworzony!";
-            return View();
+            await _clientService.SaveAsync(clientRequest);
+            return RedirectToAction("Login");
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Błąd podczas tworzenia klienta: {ex.Message}");
-            ViewData["ErrorMessage"] = "Nie udało się utworzyć klienta.";
+            TempData["Error"] = $"Error: {ex.Message}";
             return View();
         }
+    }
+
+    [HttpGet("login")]
+    public IActionResult Login() => View();
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromForm] ClientRequest clientRequest)
+    {
+        var client = await _clientService.FindByLoginAsync(clientRequest.Login);
+        if (client.Password != clientRequest.Password)
+        {
+            TempData["Error"] = "Invalid login credentials.";
+            return View();
+        }
+
+        HttpContext.Session.SetString("ClientId", client.ClientId.ToString());
+        return RedirectToAction("MyAccounts", "Account");
+    }
+
+    [HttpPost("logout")]
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Remove("ClientId");
+        return RedirectToAction("Login");
     }
 }

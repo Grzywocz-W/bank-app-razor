@@ -5,30 +5,52 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Dodanie DbContext do kontenera DI (wstrzykiwanie zależności)
+// Rejestracja repozytoriów
+builder.Services.AddScoped<ClientRepository>();
+builder.Services.AddScoped<AccountRepository>();
+
+// Rejestracja serwisów
+builder.Services.AddScoped<ClientService>();
+builder.Services.AddScoped<AccountService>();
+
+// Rejestracja sesji
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+});
+
+// Rejestracja baz danych
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-// Dodanie pozostałych usług
-builder.Services.AddControllersWithViews(); // Dodanie wsparcia dla MVC
-builder.Services.AddScoped<ClientService>(); // Rejestracja serwisu do obsługi logiki biznesowej
-builder.Services.AddScoped<IClientRepository, ClientRepository>(); // Rejestracja repozytorium dla Clienta
+// Rejestracja kontrolerów
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Konfiguracja middleware
-app.UseHttpsRedirection();
-app.UseStaticFiles(); // Dodanie wsparcia dla plików statycznych (CSS, JS, obrazy itp.)
+// Middleware
+app.UseSession();
+app.UseStaticFiles();
 app.UseRouting();
-app.UseAuthorization(); // Używanie autoryzacji
+app.UseAuthorization();
 
-// Definicja routingu dla aplikacji
+// Definiowanie domyślnej trasy, która będzie przekierowywać na stronę logowania
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Login}/{id?}");
+    pattern: "{controller=Client}/{action=Login}/{id?}");  // Domyślnie akcja Login w kontrolerze Client
 
-// Mapowanie kontrolerów, jeśli używasz API
-app.MapControllers();
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
 
-app.Run();
+app.Run("http://localhost:5062");  // Ustawienie portu, na którym aplikacja będzie uruchomiona

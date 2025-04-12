@@ -1,27 +1,24 @@
-﻿namespace BankApp.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
+namespace BankApp.Models;
+
+[Table("CLIENTS")]
 public class Client
 {
-    public long UserId { get; set; }
-    public string Login { get; set; }
-    public string Password { get; set; }
-    public List<Account> Accounts { get; set; }
+    [Key] [Column("CLIENT_ID")] public long ClientId { get; set; }
 
-    public Client()
-    {
-        Accounts = new List<Account>();
-    }
+    [Required] [Column("LOGIN")] public string Login { get; set; }
 
-    public decimal GetBalance()
-    {
-        if (Accounts.Count != 0)
-            return Accounts.First().Balance;
-        return 0;
-    }
+    [Required] [Column("PASSWORD")] public string Password { get; set; }
+
+    [InverseProperty("Client")] public List<Account> Accounts { get; set; } = new();
+
+    public decimal GetBalance() => Accounts.Sum(a => a.Balance);
 
     public void SetBalance(decimal newBalance)
     {
         if (Accounts.Count != 0)
-            Accounts.First().Balance = newBalance;
+            Accounts.First().Balance = newBalance; // to nie ma sensu jeśli jest wiele kont
     }
 }

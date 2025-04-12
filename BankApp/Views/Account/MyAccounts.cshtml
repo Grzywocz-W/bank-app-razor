@@ -1,0 +1,67 @@
+@{
+    var clientId = ViewData["ClientId"] as string;
+}
+
+<h2>Your Accounts</h2>
+
+<!-- Buttons for creating a new account and logging out -->
+<div class="mb-3">
+    <!-- Create New Account Button -->
+    <a href="@Url.Action("CreateAccount", "Account")" class="btn btn-success btn-sm">Create New Account</a>
+
+    <!-- Logout Button -->
+    @if (clientId != null)
+    {
+        <form asp-controller="Client" asp-action="Logout" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-danger btn-sm">Logout</button>
+        </form>
+    }
+</div>
+
+<!-- Table displaying the user's accounts -->
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Account ID</th>
+        <th>Balance</th>
+        <th>Currency</th>
+        <th>Withdraw</th>
+        <th>Transfer</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var account in Model)
+    {
+        <tr>
+            <td>@account.AccountId</td>
+            <td>@account.Balance</td>
+            <td>@account.Currency</td>
+            <td>
+                <form asp-action="Withdraw" method="post" class="form-inline">
+                    <input type="hidden" name="id" value="@account.AccountId" />
+                    <input type="number" name="amount" placeholder="Amount" class="form-control" />
+                    <button type="submit" class="btn btn-danger btn-sm">Withdraw</button>
+                </form>
+            </td>
+            <td>
+                <form asp-action="Transfer" method="post" class="form-inline">
+                    <input type="hidden" name="fromId" value="@account.AccountId" />
+                    <input type="number" name="toId" placeholder="To ID" class="form-control" />
+                    <input type="number" name="amount" placeholder="Amount" class="form-control" />
+                    <button type="submit" class="btn btn-primary btn-sm">Transfer</button>
+                </form>
+            </td>
+            <td>
+                <form asp-action="DeleteAccount" method="post">
+                    <input type="hidden" name="accountId" value="@account.AccountId" />
+                    <button type="submit" class="btn btn-warning btn-sm"
+                            onclick="return confirm('Are you sure you want to delete this account?');">
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
