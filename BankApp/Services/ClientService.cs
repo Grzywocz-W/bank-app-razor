@@ -2,52 +2,69 @@
 using BankApp.Models;
 using BankApp.Repositories;
 
-namespace BankApp.Services;
-
 public class ClientService
 {
-    private readonly IClientRepository _clientRepository;
+    private readonly ClientRepository _clientRepository;
 
-    public ClientService(IClientRepository clientRepository)
+    public ClientService(ClientRepository clientRepository)
     {
         _clientRepository = clientRepository;
     }
 
-    // Asynchroniczna metoda do zapisu nowego klienta
-    public void Save(ClientRequest clientRequest)
+    public async Task<ClientResponse> FindByIdAsync(long clientId)
+    {
+        var client = await _clientRepository.FindByIdAsync(clientId);
+        if (client == null)
+            throw new ArgumentException("Client not found.");
+
+        var accounts = client.Accounts.Select(a => new AccountResponse
+        {
+            AccountId = a.AccountId,
+            Balance = a.Balance,
+            Currency = a.Currency,
+            ClientId = a.ClientId
+        }).ToList();
+
+        return new ClientResponse(client.ClientId, client.Login, client.Password, accounts);
+    }
+
+    public async Task<ClientResponse> FindByLoginAsync(string login)
+    {
+        var client = await _clientRepository.FindByLoginAsync(login);
+        if (client == null)
+            throw new ArgumentException("Client not found.");
+
+        var accounts = client.Accounts.Select(a => new AccountResponse
+        {
+            AccountId = a.AccountId,
+            Balance = a.Balance,
+            Currency = a.Currency,
+            ClientId = a.ClientId
+        }).ToList();
+
+        return new ClientResponse(client.ClientId, client.Login, client.Password, accounts);
+    }
+
+    public async Task SaveAsync(ClientRequest clientRequest)
     {
         var client = new Client
         {
-            // UserId = Guid.NewGuid(),  // Używamy unikalnego identyfikatora dla użytkownika
             Login = clientRequest.Login,
-            Password = clientRequest.Password // Pamiętaj, żeby w prawdziwej aplikacji hasło było haszowane
+            Password = clientRequest.Password
         };
 
-        // Dodajemy klienta do repozytorium
-        _clientRepository.Save(client);
+        await _clientRepository.SaveAsync(client);
     }
 
-    public ClientResponse FindResponseByEmail(string login)
+    public async Task RemoveByLoginAsync(string login)
     {
-        var client = _clientRepository.FindByLogin(login); // Używamy Login zamiast Email
-
-        return new ClientResponse(client.UserId, client.Login, client.Accounts.Select(a => a.AccountId).ToList(),
-            client.Password);
-    }
-
-    public void RemoveByLogin(string login)
-    {
-        var client = _clientRepository.FindByLogin(login); // Używamy Login zamiast Email
+        var client = await _clientRepository.FindByLoginAsync(login);
         if (client == null)
-        {
-            throw new Exception("Client not found");
-        }
+            throw new ArgumentException("Client not found.");
 
         if (client.GetBalance() > 0)
-        {
-            throw new UnauthorizedAccessException("Client balance must be 0 to delete.");
-        }
+            throw new InvalidOperationException("Client balance must be zero before deletion.");
 
-        _clientRepository.Delete(client);
+        await _clientRepository.DeleteAsync(client);
     }
 }

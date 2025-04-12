@@ -2,16 +2,16 @@
 
 public class ClientResponse
 {
-    public long Id { get; set; }
-    public string Login { get; set; } 
-    public string Password { get; set; } 
-    public List<long> Accounts { get; set; }
+    public long ClientId { get; set; }
+    public string Login { get; set; }
+    public string Password { get; set; }
+    public List<AccountResponse> Accounts { get; set; }
 
-    public ClientResponse(long id, string login, List<long> accounts, string password)
+    public ClientResponse(long clientId, string login, string password, List<AccountResponse> accounts)
     {
-        Id = id;
+        ClientId = clientId;
         Login = login;
-        Accounts = accounts;
         Password = password;
+        Accounts = accounts;
     }
 }

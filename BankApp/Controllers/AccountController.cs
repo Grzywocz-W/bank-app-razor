@@ -4,81 +4,109 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BankApp.Controllers;
 
-[Route("api/[controller]")]
-[ApiController]
-public class AccountController : ControllerBase
+public class AccountController : Controller
 {
     private readonly AccountService _service;
+    private readonly ClientService _clientService;
 
-    public AccountController(AccountService service)
+    public AccountController(AccountService service, ClientService clientService)
     {
         _service = service;
+        _clientService = clientService;
     }
 
-    // Endpoint do tworzenia konta
-    [HttpPost]
-    public IActionResult CreateAccount([FromBody] AccountRequest account)
+    [HttpGet("create")]
+    public IActionResult CreateAccount()
+    {
+        return View();
+    }
+
+    [HttpPost("create")]
+    public async Task<IActionResult> CreateAccount([FromForm] AccountRequest accountRequest)
     {
         try
         {
-            _service.Save(account);
-            return StatusCode(201);
+            var clientId = HttpContext.Session.GetString("ClientId");
+            if (clientId == null)
+            {
+                TempData["Error"] = "You must be logged in to create an account.";
+                return RedirectToAction("Login", "Client");
+            }
+
+            accountRequest.ClientId = long.Parse(clientId);
+
+            await _service.SaveAsync(accountRequest);
+            return RedirectToAction("MyAccounts");
         }
         catch (Exception ex)
         {
-            return BadRequest($"Error: {ex.Message}");
+            TempData["Error"] = $"Error: {ex.Message}";
+            return View();
         }
     }
 
-    // Endpoint do wyszukiwania konta po ID
-    [HttpGet]
-    public IActionResult GetAccountById([FromQuery] long id)
+    [HttpGet("myaccounts")]
+    public async Task<IActionResult> MyAccounts()
     {
-        try
-        {
-            var account = _service.FindById(id);
-            return Ok(account);
-        }
-        catch (Exception ex)
-        {
-            return NotFound($"Error: {ex.Message}");
-        }
-    }
+        var clientId = HttpContext.Session.GetString("ClientId");
+        if (clientId == null)
+            return RedirectToAction("Login", "Client");
 
-    // Endpoint do przelewu między kontami
+        var client = await _clientService.FindByIdAsync(long.Parse(clientId));
+        ViewData["ClientId"] = clientId;
+        
+        return View(client.Accounts);
+    } 
+  
     [HttpPost("transfer")]
-    public IActionResult Transfer(
-        [FromQuery] long fromId,
-        [FromQuery] long toId,
-        [FromQuery] decimal amount
-    )
+    public async Task<IActionResult> Transfer([FromForm] long fromId, [FromForm] long toId, [FromForm] decimal amount)
     {
+        var clientId = HttpContext.Session.GetString("ClientId");
+        if (clientId == null)
+        {
+            TempData["Error"] = "You must be logged in to perform this action.";
+            return RedirectToAction("Login", "Client");
+        }
+
         try
         {
-            _service.Transfer(fromId, toId, amount);
-            return NoContent();
+            await _service.TransferAsync(fromId, toId, amount);
+            return RedirectToAction("MyAccounts");
         }
         catch (Exception ex)
         {
-            return BadRequest($"Error: {ex.Message}");
+            TempData["Error"] = $"Error: {ex.Message}";
+            return RedirectToAction("MyAccounts");
         }
     }
 
-    // Endpoint do wypłaty z konta
     [HttpPost("withdraw")]
-    public IActionResult Withdraw(
-        [FromQuery] long id,
-        [FromQuery] decimal amount
-    )
+    public async Task<IActionResult> Withdraw([FromForm] long id, [FromForm] decimal amount)
     {
         try
         {
-            _service.WithDraw(id, amount);
-            return NoContent();
+            await _service.WithdrawAsync(id, amount);
+            return RedirectToAction("MyAccounts");
         }
         catch (Exception ex)
         {
-            return BadRequest($"Error: {ex.Message}");
+            TempData["Error"] = $"Error: {ex.Message}";
+            return RedirectToAction("MyAccounts");
+        }
+    }
+
+    [HttpPost("delete")]
+    public async Task<IActionResult> DeleteAccount([FromForm] long accountId)
+    {
+        try
+        {
+            await _service.DeleteAsync(accountId);
+            return RedirectToAction("MyAccounts");
+        }
+        catch (Exception ex)
+        {
+            TempData["Error"] = $"Error: {ex.Message}";
+            return RedirectToAction("MyAccounts");
         }
     }
 }

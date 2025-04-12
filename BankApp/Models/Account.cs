@@ -6,11 +6,16 @@ namespace BankApp.Models;
 [Table("ACCOUNTS")]
 public class Account
 {
-    [Key] [Column("ACCOUNT_ID")] public long AccountId { get; set; }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    [Column("ACCOUNT_ID")]
+    public long AccountId { get; set; }
 
     [Column("BALANCE")] public decimal Balance { get; set; }
 
-    [Column("CURRENCY")] public string Currency { get; set; }
+    [Required] [Column("CURRENCY")] public string Currency { get; set; }
 
-    [Column("USER_ID")] public long? UserId { get; set; }
+    [Column("CLIENT_ID")] public long ClientId { get; set; }
+
+    [ForeignKey("ClientId")] public Client Client { get; set; }
 }

@@ -1,32 +1,42 @@
-﻿using BankApp.Models;
+﻿using BankApp.DTOs;
+using BankApp.Models;
 using BankApp.Repositories;
-using BankApp.DTOs;
 
 namespace BankApp.Services;
 
 public class AccountService
 {
-    private readonly IAccountRepository _accountRepository;
+    private readonly AccountRepository _accountRepository;
+    private readonly ClientRepository _clientRepository;
 
-    public AccountService(IAccountRepository accountRepository)
+    public AccountService(AccountRepository accountRepository, ClientRepository clientRepository)
     {
         _accountRepository = accountRepository;
+        _clientRepository = clientRepository;
     }
 
-    public void Save(AccountRequest accountRequest)
+    public async Task SaveAsync(AccountRequest accountRequest)
     {
+        var client = await _clientRepository.FindByIdAsync(accountRequest.ClientId);
+        if (client == null)
+        {
+            throw new ArgumentException("Client not found.");
+        }
+
         var account = new Account
         {
             Balance = accountRequest.Balance,
             Currency = accountRequest.Currency,
-            UserId = accountRequest.UserId
+            ClientId = accountRequest.ClientId
         };
-        _accountRepository.Save(account);
+
+        await _accountRepository.SaveAsync(account);
     }
 
-    public AccountResponse FindById(long id)
+
+    public async Task<AccountResponse> FindByIdAsync(long id)
     {
-        var account = _accountRepository.FindById(id);
+        var account = await _accountRepository.FindByIdAsync(id);
         if (account == null)
         {
             throw new ArgumentException("Account not found");
@@ -34,56 +44,73 @@ public class AccountService
 
         return new AccountResponse
         {
-            Id = account.AccountId,
+            AccountId = account.AccountId,
             Balance = account.Balance,
             Currency = account.Currency,
-            UserId = account.UserId ?? 0,
+            ClientId = account.ClientId
         };
     }
 
-    public void Transfer(long fromId, long toId, decimal amount)
+    public async Task TransferAsync(
+        long fromId,
+        long toId,
+        decimal amount
+    )
     {
         if (fromId == toId)
         {
-            throw new ArgumentException("fromId and toId can't be equal!");
+            throw new ArgumentException("From and To accounts must be different.");
         }
 
-        var fromAccount = _accountRepository.FindById(fromId);
-        var toAccount = _accountRepository.FindById(toId);
+        var fromAccount = await _accountRepository.FindByIdAsync(fromId);
+        var toAccount = await _accountRepository.FindByIdAsync(toId);
 
         if (fromAccount == null || toAccount == null)
         {
-            throw new ArgumentException("Source or target account not found");
+            throw new ArgumentException("One or both accounts not found.");
         }
 
-        if (fromAccount.Balance >= amount)
+        if (fromAccount.Balance < amount)
         {
-            fromAccount.Balance -= amount;
-            toAccount.Balance += amount;
-        }
-        else
-        {
-            throw new Exception("Not enough funds!");
+            throw new InvalidOperationException("Insufficient funds.");
         }
 
-        _accountRepository.Save(fromAccount);
-        _accountRepository.Save(toAccount);
+        fromAccount.Balance -= amount;
+        toAccount.Balance += amount;
+
+        await _accountRepository.SaveAsync(fromAccount);
+        await _accountRepository.SaveAsync(toAccount);
     }
 
-    public void WithDraw(long id, decimal amount)
+    public async Task WithdrawAsync(
+        long id,
+        decimal amount
+    )
     {
-        var account = _accountRepository.FindById(id);
+        var account = await _accountRepository.FindByIdAsync(id);
         if (account == null)
         {
-            throw new ArgumentException("Source account not found");
+            throw new ArgumentException("Account not found.");
         }
 
         if (account.Balance < amount)
         {
-            throw new Exception("Balance must be >= than amount!");
+            throw new InvalidOperationException("Insufficient balance.");
         }
 
         account.Balance -= amount;
-        _accountRepository.Save(account);
+        await _accountRepository.SaveAsync(account);
+    }
+
+    public async Task DeleteAsync(long accountId)
+    {
+        var account = await _accountRepository.FindByIdAsync(accountId);
+        if (account == null)
+            throw new ArgumentException("Account not found.");
+
+        if (account.Balance != 0)
+            throw new InvalidOperationException("Cannot delete account with non-zero balance.");
+
+        await _accountRepository.DeleteAsync(account);
     }
 }
