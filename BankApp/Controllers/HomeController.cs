@@ -15,21 +15,20 @@ namespace BankApp.Controllers
 
         // Main landing page
         [HttpGet("")]
-        [HttpGet("home")]
         public IActionResult Index()
         {
             return View();
         }
 
         // Login page
-        [HttpGet("home/login")]
+        [HttpGet("login")]
         public IActionResult Login() => View();
 
-        [HttpPost("home/login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromForm] ClientRequest clientRequest)
         {
             var client = await _clientService.FindByLoginAsync(clientRequest.Login);
-            if (client == null || client.Password != clientRequest.Password)
+            if (client.Password != clientRequest.Password)
             {
                 TempData["Error"] = "Invalid login credentials.";
                 return View();
@@ -40,10 +39,10 @@ namespace BankApp.Controllers
         }
 
         // Register page
-        [HttpGet("home/register")]
+        [HttpGet("register")]
         public IActionResult Register() => View();
 
-        [HttpPost("home/register")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromForm] ClientRequest clientRequest)
         {
             try

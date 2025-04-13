@@ -8,55 +8,58 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
 <style>
-    body {
-        background: linear-gradient(to right, #f3f4f6, #d1d8e0);
+    html, body {
+        height: 100%;
+        margin: 0;
         font-family: 'Segoe UI', sans-serif;
-        transition: background 0.5s, color 0.5s;
+        background: linear-gradient(145deg, #373b3e 30%, #4a3d9e);
+        color: white;
     }
 
-    body.dark-mode {
-        background: #2a2a2a;
-        color: #e0e0e0;
+    .main-wrapper {
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding-top: 60px;
+        padding-left: 20px;
+        padding-right: 20px;
     }
 
     .card {
         border: none;
-        border-radius: 15px;
-        background: white;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(15px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
         transition: background 0.5s, box-shadow 0.5s;
-    }
-
-    body.dark-mode .card {
-        background: #383838;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        color: white;
     }
 
     .form-control {
         border-radius: 10px;
         padding: 12px;
-        background-color: #f4f6f9;
-        border: 1px solid #ccc;
-        transition: background-color 0.3s;
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid #666;
+        color: white;
     }
 
-    body.dark-mode .form-control {
-        background-color: #505050;
-        color: #f4f4f4;
-        border: 1px solid #888;
+    .form-control::placeholder {
+        color: #bbb;
     }
 
     .btn-glow {
-        background: linear-gradient(90deg, #1e90ff, #00bfff);
+        background: linear-gradient(90deg, #6a3d9e, #8e44ad);
         color: white;
         font-weight: bold;
         border-radius: 25px;
-        transition: 0.3s;
         padding: 10px 30px;
+        border: none;
+        transition: 0.3s;
     }
 
     .btn-glow:hover {
-        background: linear-gradient(90deg, #ff6347, #ff4500);
+        background: #ff6b81; /* różowy efekt */
         transform: scale(1.05);
     }
 
@@ -69,57 +72,68 @@
         left: 10px;
         top: 50%;
         transform: translateY(-50%);
-        color: #888;
+        color: #aaa;
     }
 
     .input-icon input {
         padding-left: 35px;
     }
+
+    .card-header h2 {
+        font-size: 1.8rem;
+        margin-bottom: 5px;
+    }
+
+    .card-header p {
+        color: white !important;
+        font-size: 0.95rem;
+        margin-bottom: 0;
+    }
+
+    a {
+        color: #c9c9ff;
+    }
+
+    a:hover {
+        text-decoration: underline;
+        color: #ffffff;
+    }
 </style>
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-4">
-            <div class="card shadow-lg">
-                <div class="card-header">
-                    <h2>@ViewData["Title"]</h2>
-                    <p class="text-muted">Please enter your credentials to log in</p>
-                </div>
-                <div class="card-body">
-                    <form asp-action="Login" method="post">
-                        <div class="form-group mb-3">
-                            <label for="Login">Login</label>
-                            <div class="input-icon">
-                                <i class="fa fa-user"></i>
-                                <input type="text" class="form-control" id="Login" name="Login" />
-                            </div>
+<div class="main-wrapper">
+    <div class="col-md-6 col-lg-4">
+        <div class="card p-4">
+            <div class="card-header text-center bg-transparent border-0">
+                <h2>@ViewData["Title"]</h2>
+                <p>Please enter your credentials to log in</p>
+            </div>
+            <div class="card-body">
+                <form asp-action="Login" method="post">
+                    <div class="form-group mb-3">
+                        <label for="Login">Login</label>
+                        <div class="input-icon">
+                            <i class="fa fa-user"></i>
+                            <input type="text" class="form-control" id="Login" name="Login" placeholder="Enter login" />
                         </div>
-
-                        <div class="form-group mb-4">
-                            <label for="Password">Password</label>
-                            <div class="input-icon">
-                                <i class="fa fa-lock"></i>
-                                <input type="password" class="form-control" id="Password" name="Password" />
-                            </div>
-                        </div>
-
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-glow">Log in</button>
-                        </div>
-                    </form>
-
-                    <div class="text-center mt-3">
-                        <p>Don't have an account? <a href="@Url.Action("Register", "Home")">Sign Up</a></p>
                     </div>
+
+                    <div class="form-group mb-4">
+                        <label for="Password">Password</label>
+                        <div class="input-icon">
+                            <i class="fa fa-lock"></i>
+                            <input type="password" class="form-control" id="Password" name="Password" placeholder="Enter password" />
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-glow">Log in</button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-3">
+                    <p>Don't have an account? <a href="@Url.Action("Register", "Home")">Sign Up</a></p>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<script>
-    const toggle = document.getElementById('darkModeToggle');
-    toggle.addEventListener('change', () => {
-        document.body.classList.toggle('dark-mode');
-    });
-</script>
