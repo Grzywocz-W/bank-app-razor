@@ -41,7 +41,15 @@ app.UseAuthorization();
 // Definiowanie domyślnej trasy, która będzie przekierowywać na stronę logowania
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Client}/{action=Login}/{id?}");  // Domyślnie akcja Login w kontrolerze Client
+    pattern: "{controller=Home}/{action=Index}/{id?}");  // Domyślnie akcja Login w kontrolerze Client
+
+// app.UseEndpoints(endpoints =>
+// {
+//     // Zmieniamy domyślny kontroler na Home, a akcję na Index
+//     endpoints.MapControllerRoute(
+//         name: "default",
+//         pattern: "{controller=Home}/{action=Index}/{id?}");
+// });
 
 if (app.Environment.IsDevelopment())
 {
