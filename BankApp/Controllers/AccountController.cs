@@ -31,22 +31,30 @@ public class AccountController : Controller
                 return RedirectToAction("Login", "Home");
             }
 
+            if (!ModelState.IsValid)
+            {
+                TempData["Error"] = "Balance cannot be negative.";
+                return View(accountRequest);
+            }
+
             accountRequest.ClientId = long.Parse(clientId);
 
             await _service.SaveAsync(accountRequest);
-            return RedirectToAction("MyAccounts","Client");
+            return RedirectToAction("MyAccounts", "Client");
         }
         catch (Exception ex)
         {
-            TempData["Error"] = $"Error: {ex.Message}";
+            TempData["Error"] = ex.Message;
             return View();
         }
     }
 
-    
-  
     [HttpPost("transfer")]
-    public async Task<IActionResult> Transfer([FromForm] long fromId, [FromForm] long toId, [FromForm] decimal amount)
+    public async Task<IActionResult> Transfer(
+        [FromForm] long fromId,
+        [FromForm] long toId,
+        [FromForm] decimal amount
+    )
     {
         var clientId = HttpContext.Session.GetString("ClientId");
         if (clientId == null)
@@ -62,13 +70,16 @@ public class AccountController : Controller
         }
         catch (Exception ex)
         {
-            TempData["Error"] = $"Error: {ex.Message}";
+            TempData["Error"] = ex.Message;
             return RedirectToAction("MyAccounts", "Client");
         }
     }
 
     [HttpPost("withdraw")]
-    public async Task<IActionResult> Withdraw([FromForm] long id, [FromForm] decimal amount)
+    public async Task<IActionResult> Withdraw(
+        [FromForm] long id,
+        [FromForm] decimal amount
+    )
     {
         try
         {
@@ -77,7 +88,7 @@ public class AccountController : Controller
         }
         catch (Exception ex)
         {
-            TempData["Error"] = $"Error: {ex.Message}";
+            TempData["Error"] = ex.Message;
             return RedirectToAction("MyAccounts", "Client");
         }
     }
@@ -92,7 +103,7 @@ public class AccountController : Controller
         }
         catch (Exception ex)
         {
-            TempData["Error"] = $"Error: {ex.Message}";
+            TempData["Error"] = ex.Message;
             return RedirectToAction("MyAccounts", "Client");
         }
     }

@@ -1,8 +1,12 @@
-﻿namespace BankApp.DTOs;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace BankApp.DTOs;
 
 public class AccountRequest
 {
-    public decimal Balance { get; set; }
-    public string Currency { get; set; }
-    public long ClientId { get; set; }  
+    [Required] [Range(0.00, double.MaxValue)] public decimal Balance { get; set; }
+
+    [Required] public string Currency { get; set; }
+
+    public long ClientId { get; set; }
 }

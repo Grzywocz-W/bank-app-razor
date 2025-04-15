@@ -7,22 +7,14 @@ namespace BankApp.Services;
 public class AccountService
 {
     private readonly AccountRepository _accountRepository;
-    private readonly ClientRepository _clientRepository;
 
-    public AccountService(AccountRepository accountRepository, ClientRepository clientRepository)
+    public AccountService(AccountRepository accountRepository)
     {
         _accountRepository = accountRepository;
-        _clientRepository = clientRepository;
     }
 
     public async Task SaveAsync(AccountRequest accountRequest)
     {
-        var client = await _clientRepository.FindByIdAsync(accountRequest.ClientId);
-        if (client == null)
-        {
-            throw new ArgumentException("Client not found.");
-        }
-
         var account = new Account
         {
             Balance = accountRequest.Balance,
@@ -33,14 +25,11 @@ public class AccountService
         await _accountRepository.SaveAsync(account);
     }
 
-
     public async Task<AccountResponse> FindByIdAsync(long id)
     {
         var account = await _accountRepository.FindByIdAsync(id);
         if (account == null)
-        {
             throw new ArgumentException("Account not found");
-        }
 
         return new AccountResponse
         {
@@ -58,22 +47,17 @@ public class AccountService
     )
     {
         if (fromId == toId)
-        {
             throw new ArgumentException("From and To accounts must be different.");
-        }
 
         var fromAccount = await _accountRepository.FindByIdAsync(fromId);
         var toAccount = await _accountRepository.FindByIdAsync(toId);
 
         if (fromAccount == null || toAccount == null)
-        {
             throw new ArgumentException("One or both accounts not found.");
-        }
+
 
         if (fromAccount.Balance < amount)
-        {
             throw new InvalidOperationException("Insufficient funds.");
-        }
 
         fromAccount.Balance -= amount;
         toAccount.Balance += amount;
@@ -89,14 +73,10 @@ public class AccountService
     {
         var account = await _accountRepository.FindByIdAsync(id);
         if (account == null)
-        {
             throw new ArgumentException("Account not found.");
-        }
 
         if (account.Balance < amount)
-        {
             throw new InvalidOperationException("Insufficient balance.");
-        }
 
         account.Balance -= amount;
         await _accountRepository.SaveAsync(account);

@@ -157,19 +157,15 @@
                     <div class="card-body">
                         <p><strong>Balance:</strong> @account.Balance @account.Currency</p>
 
-                        <!-- Button group in a single line, closer together -->
                         <div class="d-flex gap-2 mt-3">
-                            <!-- Button triggers modal for Withdraw -->
                             <button class="btn btn-danger btn-sm btn-custom" data-bs-toggle="modal" data-bs-target="#withdrawModal@account.AccountId">
                                 <i class="fa fa-arrow-down"></i> Withdraw
                             </button>
 
-                            <!-- Button triggers modal for Transfer -->
                             <button class="btn btn-primary btn-sm btn-custom" data-bs-toggle="modal" data-bs-target="#transferModal@account.AccountId">
                                 <i class="fa fa-exchange-alt"></i> Transfer
                             </button>
 
-                            <!-- Delete Account button -->
                             <form asp-controller="Account" asp-action="DeleteAccount" method="post">
                                 <input type="hidden" name="accountId" value="@account.AccountId" />
                                 <button type="submit" class="btn btn-warning btn-sm btn-custom"
@@ -180,7 +176,6 @@
                         </div>
                     </div>
                 </div>
-
 
                 <!-- Withdraw Modal -->
                 <div class="modal fade" id="withdrawModal@account.AccountId" tabindex="-1" aria-labelledby="withdrawModalLabel" aria-hidden="true">

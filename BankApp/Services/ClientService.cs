@@ -2,6 +2,8 @@
 using BankApp.Models;
 using BankApp.Repositories;
 
+namespace BankApp.Services;
+
 public class ClientService
 {
     private readonly ClientRepository _clientRepository;
@@ -25,7 +27,11 @@ public class ClientService
             ClientId = a.ClientId
         }).ToList();
 
-        return new ClientResponse(client.ClientId, client.Login, client.Password, accounts);
+        return new ClientResponse(
+            client.ClientId,
+            client.Login,
+            client.Password, accounts
+        );
     }
 
     public async Task<ClientResponse> FindByLoginAsync(string login)
@@ -42,7 +48,11 @@ public class ClientService
             ClientId = a.ClientId
         }).ToList();
 
-        return new ClientResponse(client.ClientId, client.Login, client.Password, accounts);
+        return new ClientResponse(
+            client.ClientId,
+            client.Login,
+            client.Password, accounts
+        );
     }
 
     public async Task SaveAsync(ClientRequest clientRequest)
