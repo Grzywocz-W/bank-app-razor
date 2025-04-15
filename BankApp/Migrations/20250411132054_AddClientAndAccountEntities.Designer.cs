@@ -12,7 +12,7 @@ namespace BankApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20250411132054_InitialCreate")]
-    partial class InitialCreate
+    partial class AddClientAndAccountEntities
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
