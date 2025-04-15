@@ -1,4 +1,5 @@
 using BankApp.DTOs;
+using BankApp.Models;
 using BankApp.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +26,18 @@ public class HomeController : Controller
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromForm] ClientRequest clientRequest)
     {
-        var client = await _clientService.FindByLoginAsync(clientRequest.Login);
+        ClientResponse client;
+
+        try
+        {
+            client = await _clientService.FindByLoginAsync(clientRequest.Login);
+        }
+        catch (ArgumentException ex)
+        {
+            TempData["Error"] = ex.Message;
+            return View(clientRequest);
+        }
+
         if (client.Password != clientRequest.Password)
         {
             TempData["Error"] = "Invalid login credentials.";
