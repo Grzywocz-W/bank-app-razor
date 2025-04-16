@@ -1,3 +1,6 @@
+@using BankApp
+@using BankApp.Models
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model BankApp.DTOs.AccountRequest
 @{
     ViewData["Title"] = "Create New Account";
@@ -120,10 +123,12 @@
                     <!-- Currency -->
                     <div class="form-group mb-4">
                         <label asp-for="Currency" class="form-label">Currency</label>
-                        <input asp-for="Currency"
-                               class="form-control"
-                               placeholder="Enter currency (e.g. USD, PLN)"
-                               required />
+                        <select asp-for="Currency" class="form-control">
+                            @foreach (var currency in Enum.GetValues(typeof(Currency)))
+                            {
+                                <option value="@currency">@currency</option>
+                            }
+                        </select>
                         <span asp-validation-for="Currency" class="text-danger"></span>
                     </div>
 
