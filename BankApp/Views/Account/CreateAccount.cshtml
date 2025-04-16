@@ -1,3 +1,4 @@
+@model BankApp.DTOs.AccountRequest
 @{
     ViewData["Title"] = "Create New Account";
 }
@@ -105,25 +106,23 @@
                 <form asp-action="CreateAccount" method="post">
                     <!-- Initial Balance with 2 decimal precision -->
                     <div class="form-group mb-3">
-                        <label for="Balance">Initial Balance</label>
-                        <input type="number"
+                        <label asp-for="Balance" class="form-label">Initial Balance</label>
+                        <input asp-for="Balance"
                                class="form-control"
-                               id="Balance"
-                               name="Balance"
                                placeholder="Enter initial balance"
                                step="0.01"
+                               type="number"
                                required />
                     </div>
 
                     <!-- Currency -->
                     <div class="form-group mb-4">
-                        <label for="Currency">Currency</label>
-                        <input type="text"
+                        <label asp-for="Currency" class="form-label">Currency</label>
+                        <input asp-for="Currency"
                                class="form-control"
-                               id="Currency"
-                               name="Currency"
                                placeholder="Enter currency (e.g. USD, PLN)"
                                required />
+                        <span asp-validation-for="Currency" class="text-danger"></span>
                     </div>
 
                     <!-- Submit -->

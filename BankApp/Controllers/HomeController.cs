@@ -1,5 +1,4 @@
 using BankApp.DTOs;
-using BankApp.Models;
 using BankApp.Services;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,3 +1,4 @@
+using System.Globalization;
 using BankApp.Data;
 using BankApp.Repositories;
 using BankApp.Services;
@@ -50,6 +51,10 @@ app.MapControllerRoute(
 //         name: "default",
 //         pattern: "{controller=Home}/{action=Index}/{id?}");
 // });
+
+var cultureInfo = new CultureInfo("en-US");
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 if (app.Environment.IsDevelopment())
 {
