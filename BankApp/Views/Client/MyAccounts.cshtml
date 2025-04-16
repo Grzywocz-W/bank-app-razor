@@ -188,7 +188,7 @@
                             <div class="modal-body">
                                 <form asp-controller="Account" asp-action="Withdraw" method="post">
                                     <input type="hidden" name="id" value="@account.AccountId" />
-                                    <input type="number" name="amount" placeholder="Amount" class="form-control" step="0.01" min="0.01" required />
+                                    <input type="number" name="amount" placeholder="Amount" class="form-control" step="0.01" min="0.01" max="1000000000000" required />
                                     <button type="submit" class="btn btn-danger btn-sm btn-custom">Withdraw</button>
                                 </form>
                             </div>
@@ -208,7 +208,7 @@
                                 <form asp-controller="Account" asp-action="Transfer" method="post">
                                     <input type="hidden" name="fromId" value="@account.AccountId" />
                                     <input type="number" name="toId" placeholder="To Account ID" class="form-control" required />
-                                    <input type="number" name="amount" placeholder="Amount" class="form-control" step="0.01" min="0.01" required />
+                                    <input type="number" name="amount" placeholder="Amount" class="form-control" step="0.01" min="0.01" max="1000000000000" required />
                                     <button type="submit" class="btn btn-primary btn-sm btn-custom">Transfer</button>
                                 </form>
                             </div>

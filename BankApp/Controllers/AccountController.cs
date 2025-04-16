@@ -33,7 +33,7 @@ public class AccountController : Controller
 
             if (!ModelState.IsValid)
             {
-                TempData["Error"] = "Balance cannot be negative.";
+                TempData["Error"] = "Invalid balance.";
                 return View(accountRequest);
             }
 
