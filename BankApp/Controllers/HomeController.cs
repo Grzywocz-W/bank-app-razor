@@ -29,7 +29,7 @@ public class HomeController : Controller
 
         try
         {
-            client = await _clientService.FindByLoginAsync(clientRequest.Login);
+            client = await _clientService.FindByLogin(clientRequest.Login);
         }
         catch (ArgumentException ex)
         {
@@ -61,7 +61,7 @@ public class HomeController : Controller
 
         try
         {
-            await _clientService.SaveAsync(clientRequest);
+            await _clientService.Save(clientRequest);
             return RedirectToAction("Login");
         }
         catch (Exception ex)

@@ -19,7 +19,7 @@ public class ClientController : Controller
         if (clientId == null)
             return RedirectToAction("", "Home");
 
-        var client = await _clientService.FindByIdAsync(long.Parse(clientId));
+        var client = await _clientService.FindById(long.Parse(clientId));
         ViewData["ClientId"] = clientId;
 
         return View(client.Accounts);
@@ -36,11 +36,11 @@ public class ClientController : Controller
             return RedirectToAction("Login", "Home");
         }
 
-        var client = await _clientService.FindByIdAsync(long.Parse(clientId));
+        var client = await _clientService.FindById(long.Parse(clientId));
 
         try
         {
-            await _clientService.RemoveByLoginAsync(client.Login);
+            await _clientService.RemoveByLogin(client.Login);
             HttpContext.Session.Remove("ClientId");
             return RedirectToAction("Index", "Home");
         }

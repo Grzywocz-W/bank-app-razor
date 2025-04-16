@@ -6,11 +6,11 @@ namespace BankApp.Controllers;
 
 public class AccountController : Controller
 {
-    private readonly AccountService _service;
+    private readonly AccountService _accountService;
 
-    public AccountController(AccountService service)
+    public AccountController(AccountService accountService)
     {
-        _service = service;
+        _accountService = accountService;
     }
 
     [HttpGet("create")]
@@ -39,7 +39,7 @@ public class AccountController : Controller
 
             accountRequest.ClientId = long.Parse(clientId);
 
-            await _service.SaveAsync(accountRequest);
+            await _accountService.Save(accountRequest);
             return RedirectToAction("MyAccounts", "Client");
         }
         catch (Exception ex)
@@ -65,7 +65,7 @@ public class AccountController : Controller
 
         try
         {
-            await _service.TransferAsync(fromId, toId, amount);
+            await _accountService.Transfer(fromId, toId, amount);
             return RedirectToAction("MyAccounts", "Client");
         }
         catch (Exception ex)
@@ -83,7 +83,7 @@ public class AccountController : Controller
     {
         try
         {
-            await _service.WithdrawAsync(id, amount);
+            await _accountService.Withdraw(id, amount);
             return RedirectToAction("MyAccounts", "Client");
         }
         catch (Exception ex)
@@ -98,7 +98,7 @@ public class AccountController : Controller
     {
         try
         {
-            await _service.DeleteAsync(accountId);
+            await _accountService.Delete(accountId);
             return RedirectToAction("MyAccounts", "Client");
         }
         catch (Exception ex)

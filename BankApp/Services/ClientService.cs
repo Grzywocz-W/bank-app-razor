@@ -13,7 +13,7 @@ public class ClientService
         _clientRepository = clientRepository;
     }
 
-    public async Task<ClientResponse> FindByIdAsync(long clientId)
+    public async Task<ClientResponse> FindById(long clientId)
     {
         var client = await _clientRepository.FindByIdAsync(clientId);
         if (client == null)
@@ -34,7 +34,7 @@ public class ClientService
         );
     }
 
-    public async Task<ClientResponse> FindByLoginAsync(string login)
+    public async Task<ClientResponse> FindByLogin(string login)
     {
         var client = await _clientRepository.FindByLoginAsync(login);
         if (client == null)
@@ -55,7 +55,7 @@ public class ClientService
         );
     }
 
-    public async Task SaveAsync(ClientRequest clientRequest)
+    public async Task Save(ClientRequest clientRequest)
     {
         var client = new Client
         {
@@ -66,7 +66,7 @@ public class ClientService
         await _clientRepository.SaveAsync(client);
     }
 
-    public async Task RemoveByLoginAsync(string login)
+    public async Task RemoveByLogin(string login)
     {
         var client = await _clientRepository.FindByLoginAsync(login);
         if (client == null)

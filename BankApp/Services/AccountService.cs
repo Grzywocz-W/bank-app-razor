@@ -13,7 +13,7 @@ public class AccountService
         _accountRepository = accountRepository;
     }
 
-    public async Task SaveAsync(AccountRequest accountRequest)
+    public async Task Save(AccountRequest accountRequest)
     {
         var account = new Account
         {
@@ -25,7 +25,7 @@ public class AccountService
         await _accountRepository.SaveAsync(account);
     }
 
-    public async Task<AccountResponse> FindByIdAsync(long id)
+    public async Task<AccountResponse> FindById(long id)
     {
         var account = await _accountRepository.FindByIdAsync(id);
         if (account == null)
@@ -40,7 +40,7 @@ public class AccountService
         };
     }
 
-    public async Task TransferAsync(
+    public async Task Transfer(
         long fromId,
         long toId,
         decimal amount
@@ -66,7 +66,7 @@ public class AccountService
         await _accountRepository.SaveAsync(toAccount);
     }
 
-    public async Task WithdrawAsync(
+    public async Task Withdraw(
         long id,
         decimal amount
     )
@@ -82,7 +82,7 @@ public class AccountService
         await _accountRepository.SaveAsync(account);
     }
 
-    public async Task DeleteAsync(long accountId)
+    public async Task Delete(long accountId)
     {
         var account = await _accountRepository.FindByIdAsync(accountId);
         if (account == null)
