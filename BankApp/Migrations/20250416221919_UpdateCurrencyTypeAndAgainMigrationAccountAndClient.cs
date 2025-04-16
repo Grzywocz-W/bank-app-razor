@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BankApp.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class UpdateCurrencyTypeAndAgainMigrationAccountAndClient : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,7 +32,7 @@ namespace BankApp.Migrations
                     ACCOUNT_ID = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     BALANCE = table.Column<decimal>(type: "numeric", nullable: false),
-                    CURRENCY = table.Column<string>(type: "text", nullable: false),
+                    CURRENCY = table.Column<int>(type: "integer", nullable: false),
                     CLIENT_ID = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>

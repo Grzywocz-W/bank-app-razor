@@ -1,61 +1,64 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BankApp.Services;
+using Microsoft.AspNetCore.Mvc;
 
-namespace BankApp.Controllers
+namespace BankApp.Controllers;
+
+public class ClientController : Controller
 {
-    public class ClientController : Controller
+    private readonly ClientService _clientService;
+
+    public ClientController(ClientService clientService)
     {
-        private readonly ClientService _clientService;
+        _clientService = clientService;
+    }
 
-        public ClientController(ClientService clientService)
+    [HttpGet("myaccounts")]
+    public async Task<IActionResult> MyAccounts()
+    {
+        var clientId = HttpContext.Session.GetString("ClientId");
+        if (clientId == null)
+            return RedirectToAction("", "Home");
+
+        var client = await _clientService.FindById(long.Parse(clientId));
+        ViewData["ClientId"] = clientId;
+
+        return View(
+            client.Accounts
+                .OrderByDescending(a => a.AccountId)
+                .ToList()
+        );
+    }
+
+    [HttpPost("client/delete")]
+    public async Task<IActionResult> Delete()
+    {
+        var clientId = HttpContext.Session.GetString("ClientId");
+
+        if (string.IsNullOrEmpty(clientId))
         {
-            _clientService = clientService;
+            TempData["Error"] = "You must be logged in to delete your account.";
+            return RedirectToAction("Login", "Home");
         }
 
-        [HttpGet("myaccounts")]
-        public async Task<IActionResult> MyAccounts()
+        var client = await _clientService.FindById(long.Parse(clientId));
+
+        try
         {
-            var clientId = HttpContext.Session.GetString("ClientId");
-            if (clientId == null)
-                return RedirectToAction("Login", "Client");
-
-            var client = await _clientService.FindByIdAsync(long.Parse(clientId));
-            ViewData["ClientId"] = clientId;
-
-            return View(client.Accounts);
+            await _clientService.RemoveByLogin(client.Login);
+            HttpContext.Session.Remove("ClientId");
+            return RedirectToAction("Index", "Home");
         }
-
-        [HttpPost("client/delete")]
-        public async Task<IActionResult> Delete()
+        catch (Exception ex)
         {
-            var clientId = HttpContext.Session.GetString("ClientId");
-
-            if (string.IsNullOrEmpty(clientId))
-            {
-                TempData["Error"] = "You must be logged in to delete your account.";
-                return RedirectToAction("Login", "Home");
-            }
-
-            var client = await _clientService.FindByIdAsync(long.Parse(clientId));
-
-            try
-            {
-                await _clientService.RemoveByLoginAsync(client.Login);
-                HttpContext.Session.Remove("ClientId");
-                return RedirectToAction("Index", "Home");
-            }
-            catch (Exception ex)
-            {
-                TempData["Error"] = $"Error: {ex.Message}";
-                return RedirectToAction("MyAccounts", "Client");
-            }
+            TempData["Error"] = ex.Message;
+            return RedirectToAction("MyAccounts", "Client");
         }
+    }
 
-
-        [HttpPost("client/logout")]
-        public IActionResult Logout()
-        {
-            HttpContext.Session.Remove("ClientId"); // Remove the client session
-            return RedirectToAction("Index","Home"); // Redirect to the login page
-        }
+    [HttpPost("logout")]
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Remove("ClientId");
+        return RedirectToAction("Index", "Home");
     }
 }

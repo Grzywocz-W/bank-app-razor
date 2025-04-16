@@ -38,9 +38,8 @@ namespace BankApp.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("CLIENT_ID");
 
-                    b.Property<string>("Currency")
-                        .IsRequired()
-                        .HasColumnType("text")
+                    b.Property<int>("Currency")
+                        .HasColumnType("integer")
                         .HasColumnName("CURRENCY");
 
                     b.HasKey("AccountId");

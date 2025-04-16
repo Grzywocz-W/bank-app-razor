@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BankApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250411132054_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250416221919_UpdateCurrencyTypeAndAgainMigrationAccountAndClient")]
+    partial class UpdateCurrencyTypeAndAgainMigrationAccountAndClient
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,9 +41,8 @@ namespace BankApp.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("CLIENT_ID");
 
-                    b.Property<string>("Currency")
-                        .IsRequired()
-                        .HasColumnType("text")
+                    b.Property<int>("Currency")
+                        .HasColumnType("integer")
                         .HasColumnName("CURRENCY");
 
                     b.HasKey("AccountId");

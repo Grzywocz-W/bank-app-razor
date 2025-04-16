@@ -15,10 +15,4 @@ public class Client
     [InverseProperty("Client")] public List<Account> Accounts { get; set; } = new();
 
     public decimal GetBalance() => Accounts.Sum(a => a.Balance);
-
-    public void SetBalance(decimal newBalance)
-    {
-        if (Accounts.Count != 0)
-            Accounts.First().Balance = newBalance; // to nie ma sensu jeśli jest wiele kont
-    }
 }

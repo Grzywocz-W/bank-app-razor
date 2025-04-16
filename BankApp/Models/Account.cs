@@ -13,7 +13,7 @@ public class Account
 
     [Column("BALANCE")] public decimal Balance { get; set; }
 
-    [Required] [Column("CURRENCY")] public string Currency { get; set; }
+    [Required] [Column("CURRENCY")] public Currency Currency { get; set; }
 
     [Column("CLIENT_ID")] public long ClientId { get; set; }
 

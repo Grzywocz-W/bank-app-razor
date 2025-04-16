@@ -1,5 +1,8 @@
+@using BankApp
+@using BankApp.Models
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BankApp.DTOs.AccountRequest
 @{
-    var clientId = ViewData["ClientId"] as string;
     ViewData["Title"] = "Create New Account";
 }
 
@@ -103,26 +106,42 @@
                 <p>Provide details to create a new account</p>
             </div>
             <div class="card-body">
-                <form asp-action="CreateAccount" method="post">
+                <form asp-action="Create" method="post">
+                    <!-- Initial Balance with 2 decimal precision -->
                     <div class="form-group mb-3">
-                        <label for="Balance">Initial Balance</label>
-                        <input type="number" class="form-control" id="Balance" name="Balance" placeholder="Enter initial balance" required />
+                        <label asp-for="Balance" class="form-label">Initial Balance</label>
+                        <input asp-for="Balance"
+                               class="form-control"
+                               placeholder="Enter initial balance"
+                               step="0.01"
+                               min="0.00"
+                               max="1000000000000"
+                               type="number"
+                               required />
                     </div>
 
+                    <!-- Currency -->
                     <div class="form-group mb-4">
-                        <label for="Currency">Currency</label>
-                        <input type="text" class="form-control" id="Currency" name="Currency" placeholder="Enter currency" required />
+                        <label asp-for="Currency" class="form-label">Currency</label>
+                        <select asp-for="Currency" class="form-control">
+                            @foreach (var currency in Enum.GetValues(typeof(Currency)))
+                            {
+                                <option value="@currency">@currency</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Currency" class="text-danger"></span>
                     </div>
 
+                    <!-- Submit -->
                     <div class="text-center">
                         <button type="submit" class="btn btn-glow">Create Account</button>
                     </div>
                 </form>
 
+                <!-- Back button -->
                 <div class="text-center mt-3">
                     <a href="@Url.Action("MyAccounts", "Client")" class="btn-glow-secondary">Back to My Accounts</a>
                 </div>
-
             </div>
         </div>
     </div>
