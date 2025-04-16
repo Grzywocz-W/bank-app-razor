@@ -14,13 +14,13 @@ public class AccountController : Controller
     }
 
     [HttpGet("create")]
-    public IActionResult CreateAccount()
+    public IActionResult Create()
     {
         return View();
     }
 
     [HttpPost("create")]
-    public async Task<IActionResult> CreateAccount([FromForm] AccountRequest accountRequest)
+    public async Task<IActionResult> Create([FromForm] AccountRequest accountRequest)
     {
         try
         {
@@ -94,7 +94,7 @@ public class AccountController : Controller
     }
 
     [HttpPost("account/delete")]
-    public async Task<IActionResult> DeleteAccount([FromForm] long accountId)
+    public async Task<IActionResult> Delete([FromForm] long accountId)
     {
         try
         {

@@ -16,20 +16,17 @@ public class AccountRepository
     public async Task SaveAsync(Account account)
     {
         if (account.AccountId == 0)
-        {
             await _context.Accounts.AddAsync(account);
-        }
         else
-        {
             _context.Accounts.Update(account);
-        }
 
         await _context.SaveChangesAsync();
     }
 
     public async Task<Account> FindByIdAsync(long id)
     {
-        return await _context.Accounts.FirstOrDefaultAsync(a => a.AccountId == id);
+        return await _context.Accounts
+            .FirstOrDefaultAsync(a => a.AccountId == id);
     }
 
     public async Task DeleteAsync(Account account)

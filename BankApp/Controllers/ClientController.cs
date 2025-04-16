@@ -22,7 +22,11 @@ public class ClientController : Controller
         var client = await _clientService.FindById(long.Parse(clientId));
         ViewData["ClientId"] = clientId;
 
-        return View(client.Accounts);
+        return View(
+            client.Accounts
+                .OrderByDescending(a => a.AccountId)
+                .ToList()
+        );
     }
 
     [HttpPost("client/delete")]
