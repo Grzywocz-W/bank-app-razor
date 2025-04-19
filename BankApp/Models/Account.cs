@@ -18,4 +18,8 @@ public class Account
     [Column("CLIENT_ID")] public long ClientId { get; set; }
 
     [ForeignKey("ClientId")] public Client Client { get; set; }
+    
+    public ICollection<Transaction> OutgoingTransactions { get; set; }
+
+    public ICollection<Transaction> IncomingTransactions { get; set; }
 }

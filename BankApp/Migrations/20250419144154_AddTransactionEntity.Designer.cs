@@ -3,6 +3,7 @@ using System;
 using BankApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BankApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250419144154_AddTransactionEntity")]
+    partial class AddTransactionEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,11 +102,11 @@ namespace BankApp.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("FROM_ACCOUNT_ID");
 
-                    b.Property<long?>("ToAccountId")
+                    b.Property<long>("ToAccountId")
                         .HasColumnType("bigint")
                         .HasColumnName("TO_ACCOUNT_ID");
 
-                    b.Property<DateTime>("TransactionDate")
+                    b.Property<DateTimeOffset>("TransactionDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("TRANSACTION_DATE");
 
@@ -138,7 +141,8 @@ namespace BankApp.Migrations
                     b.HasOne("BankApp.Models.Account", null)
                         .WithMany("IncomingTransactions")
                         .HasForeignKey("ToAccountId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BankApp.Models.Account", b =>

@@ -20,18 +20,21 @@ public class ClientService
             throw new ArgumentException("Client not found.");
 
         var accounts = client.Accounts.Select(a => new AccountResponse
-        {
-            AccountId = a.AccountId,
-            Balance = a.Balance,
-            Currency = a.Currency,
-            ClientId = a.ClientId
-        }).ToList();
+            {
+                AccountId = a.AccountId,
+                Balance = a.Balance,
+                Currency = a.Currency,
+                ClientId = a.ClientId
+            }
+        ).ToList();
 
-        return new ClientResponse(
-            client.ClientId,
-            client.Login,
-            client.Password, accounts
-        );
+        return new ClientResponse
+        {
+            ClientId = client.ClientId,
+            Login = client.Login,
+            Password = client.Password,
+            Accounts = accounts
+        };
     }
 
     public async Task<ClientResponse> FindByLogin(string login)
@@ -41,18 +44,21 @@ public class ClientService
             throw new ArgumentException("Client not found.");
 
         var accounts = client.Accounts.Select(a => new AccountResponse
-        {
-            AccountId = a.AccountId,
-            Balance = a.Balance,
-            Currency = a.Currency,
-            ClientId = a.ClientId
-        }).ToList();
+            {
+                AccountId = a.AccountId,
+                Balance = a.Balance,
+                Currency = a.Currency,
+                ClientId = a.ClientId
+            }
+        ).ToList();
 
-        return new ClientResponse(
-            client.ClientId,
-            client.Login,
-            client.Password, accounts
-        );
+        return new ClientResponse
+        {
+            ClientId = client.ClientId,
+            Login = client.Login,
+            Password = client.Password,
+            Accounts = accounts
+        };
     }
 
     public async Task Save(ClientRequest clientRequest)

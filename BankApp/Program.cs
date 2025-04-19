@@ -9,10 +9,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Rejestracja repozytoriów
 builder.Services.AddScoped<ClientRepository>();
 builder.Services.AddScoped<AccountRepository>();
+builder.Services.AddScoped<TransactionRepository>();
+
 
 // Rejestracja serwisów
 builder.Services.AddScoped<ClientService>();
 builder.Services.AddScoped<AccountService>();
+builder.Services.AddScoped< TransactionService>();
+
 
 // Rejestracja sesji
 builder.Services.AddDistributedMemoryCache();
