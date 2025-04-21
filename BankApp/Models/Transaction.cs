@@ -20,4 +20,8 @@ public class Transaction
     [Column("FROM_ACCOUNT_ID")] public long FromAccountId { get; set; }
 
     [Column("TO_ACCOUNT_ID")] public long? ToAccountId { get; set; }
+    
+    // (lazy loading, optional)
+    public Account? FromAccount { get; set; }
+    public Account? ToAccount { get; set; }
 }

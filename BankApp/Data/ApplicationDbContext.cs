@@ -37,34 +37,15 @@ public class ApplicationDbContext : DbContext
 
             entity.HasKey(t => t.Id);
 
-            entity.Property(t => t.Id)
-                .HasColumnName("TRANSACTION_ID")
-                .ValueGeneratedOnAdd();
+            entity.Property(t => t.Id).HasColumnName("TRANSACTION_ID").ValueGeneratedOnAdd();
+            entity.Property(t => t.Amount).HasColumnName("AMOUNT");
+            entity.Property(t => t.Currency).HasColumnName("CURRENCY");
+            entity.Property(t => t.TransactionDate).HasColumnName("TRANSACTION_DATE");
+            entity.Property(t => t.FromAccountId).HasColumnName("FROM_ACCOUNT_ID");
+            entity.Property(t => t.ToAccountId).HasColumnName("TO_ACCOUNT_ID");
 
-            entity.Property(t => t.Amount)
-                .HasColumnName("AMOUNT");
-
-            entity.Property(t => t.Currency)
-                .HasColumnName("CURRENCY");
-
-            entity.Property(t => t.TransactionDate)
-                .HasColumnName("TRANSACTION_DATE");
-
-            entity.Property(t => t.FromAccountId)
-                .HasColumnName("FROM_ACCOUNT_ID");
-
-            entity.Property(t => t.ToAccountId)
-                .HasColumnName("TO_ACCOUNT_ID");
-
-            entity.HasOne<Account>()
-                .WithMany(a => a.OutgoingTransactions)
-                .HasForeignKey(t => t.FromAccountId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            entity.HasOne<Account>()
-                .WithMany(a => a.IncomingTransactions)
-                .HasForeignKey(t => t.ToAccountId)
-                .OnDelete(DeleteBehavior.Restrict);
+            entity.Ignore(t => t.FromAccount);
+            entity.Ignore(t => t.ToAccount);
         });
     }
 }

@@ -31,7 +31,27 @@ public class AccountRepository
 
     public async Task DeleteAsync(Account account)
     {
+        var relatedTransactionIds = await _context.Transactions
+            .Where(t => t.FromAccountId == account.AccountId || t.ToAccountId == account.AccountId)
+            .Select(t => t.Id)
+            .ToListAsync();
+
+        // Usuwamy konto
         _context.Accounts.Remove(account);
         await _context.SaveChangesAsync();
+
+        // Sprawdzamy, które transakcje są już „osierocone” (żadne z kont nie istnieje)
+        var orphanedTransactions = await _context.Transactions
+            .Where(t => relatedTransactionIds.Contains(t.Id))
+            .Where(t =>
+                !_context.Accounts.Any(a => a.AccountId == t.FromAccountId) &&
+                !_context.Accounts.Any(a => a.AccountId == t.ToAccountId))
+            .ToListAsync();
+
+        if (orphanedTransactions.Any())
+        {
+            _context.Transactions.RemoveRange(orphanedTransactions);
+            await _context.SaveChangesAsync();
+        }
     }
 }
