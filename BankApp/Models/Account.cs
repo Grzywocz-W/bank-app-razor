@@ -9,13 +9,14 @@ public class Account
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("ACCOUNT_ID")]
-    public long AccountId { get; set; }
+    public long AccountId { get; init; }
 
-    [Column("BALANCE")] public decimal Balance { get; set; }
+    [Column("BALANCE", TypeName = "decimal(15,2)")]
+    public decimal Balance { get; set; }
 
-    [Required] [Column("CURRENCY")] public Currency Currency { get; set; }
+    [Required] [Column("CURRENCY")] public Currency Currency { get; init; }
 
-    [Column("CLIENT_ID")] public long ClientId { get; set; }
+    [Column("CLIENT_ID")] public long ClientId { get; init; }
 
-    [ForeignKey("ClientId")] public Client Client { get; set; }
+    [ForeignKey("ClientId")] public Client Client { get; init; }
 }

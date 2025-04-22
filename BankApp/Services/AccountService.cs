@@ -8,11 +8,17 @@ public class AccountService
 {
     private readonly AccountRepository _accountRepository;
     private readonly TransactionService _transactionService;
+    private readonly CurrencyService _currencyService;
 
-    public AccountService(AccountRepository accountRepository, TransactionService transactionService)
+    public AccountService(
+        AccountRepository accountRepository,
+        TransactionService transactionService,
+        CurrencyService currencyService
+    )
     {
         _accountRepository = accountRepository;
         _transactionService = transactionService;
+        _currencyService = currencyService;
     }
 
     public async Task Save(AccountRequest accountRequest)
@@ -45,8 +51,24 @@ public class AccountService
         ValidateAccount(toAccount);
         ValidateAmountAndBalance(amount, fromAccount);
 
+        var convertedAmount = amount;
+
+        if (fromAccount.Currency != toAccount.Currency)
+        {
+            var rates = await _currencyService.GetCurrencyRatesAsync();
+
+            if (
+                !rates.Rates.TryGetValue(toAccount.Currency.ToString(), out var targetRate) ||
+                !rates.Rates.TryGetValue(fromAccount.Currency.ToString(), out var sourceRate)
+            )
+                throw new InvalidOperationException("Currency rate not available.");
+
+            convertedAmount = amount / sourceRate * targetRate;
+            convertedAmount = Math.Round(convertedAmount, 2);
+        }
+
         fromAccount.Balance -= amount;
-        toAccount.Balance += amount;
+        toAccount.Balance += convertedAmount;
 
         await _accountRepository.SaveAsync(fromAccount);
         await _accountRepository.SaveAsync(toAccount);

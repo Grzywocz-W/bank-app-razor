@@ -6,13 +6,13 @@ namespace BankApp.Models;
 [Table("CLIENTS")]
 public class Client
 {
-    [Key] [Column("CLIENT_ID")] public long ClientId { get; set; }
+    [Key] [Column("CLIENT_ID")] public long ClientId { get; init; }
 
-    [Required] [Column("LOGIN")] public string Login { get; set; }
+    [Required] [Column("LOGIN")] public string Login { get; init; }
 
-    [Required] [Column("PASSWORD")] public string Password { get; set; }
+    [Required] [Column("PASSWORD")] public string Password { get; init; }
 
-    [InverseProperty("Client")] public List<Account> Accounts { get; set; } = new();
+    [InverseProperty("Client")] public List<Account> Accounts { get; init; } = new();
 
     public decimal GetBalance() => Accounts.Sum(a => a.Balance);
 }
