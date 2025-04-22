@@ -6,5 +6,12 @@ public enum Currency
     EUR,
     PLN,
     GBP,
-    JPY
+    JPY,
+    CNY,
+    AUD,
+    CHF,
+    CAD,
+    INR,
+    TRY,
+    RUB
 }

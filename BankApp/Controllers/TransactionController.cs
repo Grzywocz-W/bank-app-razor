@@ -15,8 +15,14 @@ public class TransactionController : Controller
     [HttpGet("transactions/{accountId:long}")]
     public async Task<IActionResult> Transactions(long accountId)
     {
+        var clientId = HttpContext.Session.GetString("ClientId");
+        if (clientId == null)
+            return RedirectToAction("", "Home");
+        
         try
         {
+            
+            
             var transactions = await _transactionService.GetByAccountId(accountId);
             ViewData["AccountId"] = accountId;
             return View(transactions);

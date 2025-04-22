@@ -15,8 +15,8 @@ builder.Services.AddScoped<TransactionRepository>();
 // Rejestracja serwisów
 builder.Services.AddScoped<ClientService>();
 builder.Services.AddScoped<AccountService>();
-builder.Services.AddScoped< TransactionService>();
-
+builder.Services.AddScoped<TransactionService>();
+builder.Services.AddHttpClient<CurrencyService>();
 
 // Rejestracja sesji
 builder.Services.AddDistributedMemoryCache();
@@ -46,7 +46,7 @@ app.UseAuthorization();
 // Definiowanie domyślnej trasy, która będzie przekierowywać na stronę logowania
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");  // Domyślnie akcja Login w kontrolerze Client
+    pattern: "{controller=Home}/{action=Index}/{id?}"); // Domyślnie akcja Login w kontrolerze Client
 
 // app.UseEndpoints(endpoints =>
 // {
@@ -70,4 +70,4 @@ else
     app.UseHsts();
 }
 
-app.Run("http://localhost:5062");  // Ustawienie portu, na którym aplikacja będzie uruchomiona
+app.Run("http://localhost:5062"); // Ustawienie portu, na którym aplikacja będzie uruchomiona

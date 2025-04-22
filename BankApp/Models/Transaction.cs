@@ -9,19 +9,20 @@ public class Transaction
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("TRANSACTION_ID")]
-    public long Id { get; set; }
+    public long Id { get; init; }
 
-    [Column("AMOUNT")] public decimal Amount { get; set; }
+    [Column("AMOUNT", TypeName = "decimal(15,2)")]
+    public decimal Amount { get; init; }
 
-    [Column("CURRENCY")] public Currency Currency { get; set; }
+    [Column("CURRENCY")] public Currency Currency { get; init; }
 
-    [Column("TRANSACTION_DATE")] public DateTime TransactionDate { get; set; }
+    [Column("TRANSACTION_DATE")] public DateTime TransactionDate { get; init; }
 
-    [Column("FROM_ACCOUNT_ID")] public long FromAccountId { get; set; }
+    [Column("FROM_ACCOUNT_ID")] public long FromAccountId { get; init; }
 
-    [Column("TO_ACCOUNT_ID")] public long? ToAccountId { get; set; }
-    
+    [Column("TO_ACCOUNT_ID")] public long? ToAccountId { get; init; }
+
     // (lazy loading, optional)
-    public Account? FromAccount { get; set; }
-    public Account? ToAccount { get; set; }
+    public Account? FromAccount { get; init; }
+    public Account? ToAccount { get; init; }
 }

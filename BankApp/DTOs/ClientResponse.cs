@@ -2,11 +2,11 @@
 
 public class ClientResponse
 {
-    public long ClientId { get; set; }
+    public long ClientId { get; init; }
 
-    public string Login { get; set; }
+    public string Login { get; init; }
 
-    public string Password { get; set; }
+    public string Password { get; init; }
 
-    public List<AccountResponse> Accounts { get; set; }
+    public List<AccountResponse> Accounts { get; init; }
 }
