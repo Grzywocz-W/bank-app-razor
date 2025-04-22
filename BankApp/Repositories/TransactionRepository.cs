@@ -19,7 +19,7 @@ public class TransactionRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<List<Transaction>> GetTransactionsByAccountId(long accountId)
+    public async Task<List<Transaction>> GetTransactionsByAccountIdAsync(long accountId)
     {
         return await _context.Transactions
             .Where(t => t.FromAccountId == accountId || t.ToAccountId == accountId)

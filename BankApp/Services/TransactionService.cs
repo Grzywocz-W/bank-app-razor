@@ -7,32 +7,14 @@ namespace BankApp.Services;
 public class TransactionService
 {
     private readonly TransactionRepository _transactionRepository;
-    private readonly AccountService _accountService;
 
-    public TransactionService(TransactionRepository transactionRepository, AccountService accountService)
+    public TransactionService(TransactionRepository transactionRepository)
     {
         _transactionRepository = transactionRepository;
-        _accountService = accountService;
     }
 
     public async Task Save(TransactionRequest request)
     {
-        if (request.ToAccountId == null)
-        {
-            await _accountService.Withdraw(
-                request.FromAccountId,
-                request.Amount
-            );
-        }
-        else
-        {
-            await _accountService.Transfer(
-                request.FromAccountId,
-                request.ToAccountId.Value,
-                request.Amount
-            );
-        }
-
         var transaction = new Transaction
         {
             Amount = request.Amount,
@@ -47,11 +29,11 @@ public class TransactionService
 
     public async Task<List<TransactionResponse>> GetByAccountId(long accountId)
     {
-        var transactions = await _transactionRepository.GetTransactionsByAccountId(accountId);
+        var transactions = await _transactionRepository
+            .GetTransactionsByAccountIdAsync(accountId);
 
         return transactions.Select(t => new TransactionResponse
             {
-                TransactionId = t.Id,
                 FromAccountId = t.FromAccountId,
                 ToAccountId = t.ToAccountId,
                 Amount = t.Amount,

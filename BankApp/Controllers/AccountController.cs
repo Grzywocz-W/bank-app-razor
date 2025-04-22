@@ -1,5 +1,4 @@
 ﻿using BankApp.DTOs;
-using BankApp.Models;
 using BankApp.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,12 +7,10 @@ namespace BankApp.Controllers;
 public class AccountController : Controller
 {
     private readonly AccountService _accountService;
-    private readonly TransactionService _transactionService;
 
-    public AccountController(AccountService accountService, TransactionService transactionService)
+    public AccountController(AccountService accountService)
     {
         _accountService = accountService;
-        _transactionService = transactionService;
     }
 
     [HttpGet("create")]
@@ -32,12 +29,6 @@ public class AccountController : Controller
             {
                 TempData["Error"] = "You must be logged in to create an account.";
                 return RedirectToAction("Login", "Home");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                TempData["Error"] = "Invalid balance.";
-                return View(accountRequest);
             }
 
             accountRequest.ClientId = long.Parse(clientId);
@@ -61,13 +52,7 @@ public class AccountController : Controller
     {
         try
         {
-            await _transactionService.Save(new TransactionRequest
-            {
-                FromAccountId = fromId,
-                ToAccountId = toId,
-                Amount = amount,
-                Currency = Currency.PLN // możesz pobrać z bazy konta albo z formularza
-            });
+            await _accountService.Transfer(fromId, toId, amount);
 
             TempData["Success"] = "Transfer completed successfully.";
             return RedirectToAction("MyAccounts", "Client");
@@ -87,13 +72,7 @@ public class AccountController : Controller
     {
         try
         {
-            await _transactionService.Save(new TransactionRequest
-            {
-                FromAccountId = id,
-                ToAccountId = null,
-                Amount = amount,
-                Currency = Currency.PLN // j.w.
-            });
+            await _accountService.Withdraw(id, amount);
 
             TempData["Success"] = "Withdrawal completed successfully.";
             return RedirectToAction("MyAccounts", "Client");

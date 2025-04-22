@@ -4,7 +4,6 @@ namespace BankApp.DTOs;
 
 public class TransactionResponse
 {
-    public long TransactionId { get; set; }
     public long FromAccountId { get; set; }
     public long? ToAccountId { get; set; }
     public decimal Amount { get; set; }
