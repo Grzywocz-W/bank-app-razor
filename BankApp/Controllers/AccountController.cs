@@ -31,12 +31,6 @@ public class AccountController : Controller
                 return RedirectToAction("Login", "Home");
             }
 
-            if (!ModelState.IsValid)
-            {
-                TempData["Error"] = "Invalid balance.";
-                return View(accountRequest);
-            }
-
             accountRequest.ClientId = long.Parse(clientId);
 
             await _accountService.Save(accountRequest);
@@ -56,16 +50,11 @@ public class AccountController : Controller
         [FromForm] decimal amount
     )
     {
-        var clientId = HttpContext.Session.GetString("ClientId");
-        if (clientId == null)
-        {
-            TempData["Error"] = "You must be logged in to perform this action.";
-            return RedirectToAction("Login", "Home");
-        }
-
         try
         {
             await _accountService.Transfer(fromId, toId, amount);
+
+            TempData["Success"] = "Transfer completed successfully.";
             return RedirectToAction("MyAccounts", "Client");
         }
         catch (Exception ex)
@@ -84,6 +73,8 @@ public class AccountController : Controller
         try
         {
             await _accountService.Withdraw(id, amount);
+
+            TempData["Success"] = "Withdrawal completed successfully.";
             return RedirectToAction("MyAccounts", "Client");
         }
         catch (Exception ex)

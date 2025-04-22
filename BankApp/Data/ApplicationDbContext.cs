@@ -7,9 +7,10 @@ public class ApplicationDbContext : DbContext
 {
     public DbSet<Client> Clients { get; set; }
     public DbSet<Account> Accounts { get; set; }
+    public DbSet<Transaction> Transactions { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)                         
+        : base(options)
     {
     }
 
@@ -29,5 +30,22 @@ public class ApplicationDbContext : DbContext
             .HasIndex(c => c.Login)
             .HasDatabaseName("IX_Client_Login")
             .IsUnique();
+
+        modelBuilder.Entity<Transaction>(entity =>
+        {
+            entity.ToTable("TRANSACTIONS");
+
+            entity.HasKey(t => t.Id);
+
+            entity.Property(t => t.Id).HasColumnName("TRANSACTION_ID").ValueGeneratedOnAdd();
+            entity.Property(t => t.Amount).HasColumnName("AMOUNT");
+            entity.Property(t => t.Currency).HasColumnName("CURRENCY");
+            entity.Property(t => t.TransactionDate).HasColumnName("TRANSACTION_DATE");
+            entity.Property(t => t.FromAccountId).HasColumnName("FROM_ACCOUNT_ID");
+            entity.Property(t => t.ToAccountId).HasColumnName("TO_ACCOUNT_ID");
+
+            entity.Ignore(t => t.FromAccount);
+            entity.Ignore(t => t.ToAccount);
+        });
     }
 }

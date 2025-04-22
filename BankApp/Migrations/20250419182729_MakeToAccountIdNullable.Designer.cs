@@ -3,6 +3,7 @@ using System;
 using BankApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BankApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250419182729_MakeToAccountIdNullable")]
+    partial class MakeToAccountIdNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,6 +112,10 @@ namespace BankApp.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FromAccountId");
+
+                    b.HasIndex("ToAccountId");
+
                     b.ToTable("TRANSACTIONS", (string)null);
                 });
 
@@ -121,6 +128,27 @@ namespace BankApp.Migrations
                         .IsRequired();
 
                     b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("BankApp.Models.Transaction", b =>
+                {
+                    b.HasOne("BankApp.Models.Account", null)
+                        .WithMany("OutgoingTransactions")
+                        .HasForeignKey("FromAccountId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BankApp.Models.Account", null)
+                        .WithMany("IncomingTransactions")
+                        .HasForeignKey("ToAccountId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("BankApp.Models.Account", b =>
+                {
+                    b.Navigation("IncomingTransactions");
+
+                    b.Navigation("OutgoingTransactions");
                 });
 
             modelBuilder.Entity("BankApp.Models.Client", b =>

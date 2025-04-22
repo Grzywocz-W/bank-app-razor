@@ -3,6 +3,7 @@ using System;
 using BankApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BankApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250421101036_RemoveFK_FromAccount")]
+    partial class RemoveFK_FromAccount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,6 +90,9 @@ namespace BankApp.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<long?>("AccountId")
+                        .HasColumnType("bigint");
+
                     b.Property<decimal>("Amount")
                         .HasColumnType("numeric")
                         .HasColumnName("AMOUNT");
@@ -109,6 +115,10 @@ namespace BankApp.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("ToAccountId");
+
                     b.ToTable("TRANSACTIONS", (string)null);
                 });
 
@@ -121,6 +131,27 @@ namespace BankApp.Migrations
                         .IsRequired();
 
                     b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("BankApp.Models.Transaction", b =>
+                {
+                    b.HasOne("BankApp.Models.Account", null)
+                        .WithMany("OutgoingTransactions")
+                        .HasForeignKey("AccountId");
+
+                    b.HasOne("BankApp.Models.Account", "ToAccount")
+                        .WithMany("IncomingTransactions")
+                        .HasForeignKey("ToAccountId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("ToAccount");
+                });
+
+            modelBuilder.Entity("BankApp.Models.Account", b =>
+                {
+                    b.Navigation("IncomingTransactions");
+
+                    b.Navigation("OutgoingTransactions");
                 });
 
             modelBuilder.Entity("BankApp.Models.Client", b =>
