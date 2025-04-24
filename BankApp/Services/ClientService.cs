@@ -1,6 +1,7 @@
 ﻿using BankApp.DTOs;
 using BankApp.Models;
 using BankApp.Repositories;
+using BankApp.Security;
 
 namespace BankApp.Services;
 
@@ -16,8 +17,7 @@ public class ClientService
     public async Task<ClientResponse> FindById(long clientId)
     {
         var client = await _clientRepository.FindByIdAsync(clientId);
-        if (client == null)
-            throw new ArgumentException("Client not found.");
+        ValidateClient(client);
 
         var accounts = client.Accounts.Select(a => new AccountResponse
             {
@@ -30,43 +30,34 @@ public class ClientService
 
         return new ClientResponse
         {
-            ClientId = client.ClientId,
             Login = client.Login,
-            Password = client.Password,
             Accounts = accounts
         };
     }
 
-    public async Task<ClientResponse> FindByLogin(string login)
+    public async Task<Client?> Authenticate(string login, string password)
     {
         var client = await _clientRepository.FindByLoginAsync(login);
-        if (client == null)
-            throw new ArgumentException("Client not found.");
+        ValidateClient(client);
 
-        var accounts = client.Accounts.Select(a => new AccountResponse
-            {
-                AccountId = a.AccountId,
-                Balance = a.Balance,
-                Currency = a.Currency,
-                ClientId = a.ClientId
-            }
-        ).ToList();
+        if (!PasswordHasher.Verify(password, client.Password))
+            throw new ArgumentException("Invalid password.");
 
-        return new ClientResponse
-        {
-            ClientId = client.ClientId,
-            Login = client.Login,
-            Password = client.Password,
-            Accounts = accounts
-        };
+        return client;
     }
 
-    public async Task Save(ClientRequest clientRequest)
+    public async Task Save(RegisterRequest registerRequest)
     {
+        var existing = await _clientRepository
+            .FindByLoginAsync(registerRequest.Login);
+        
+        if (existing != null)
+            throw new InvalidOperationException("Login already taken.");
+        
         var client = new Client
         {
-            Login = clientRequest.Login,
-            Password = clientRequest.Password
+            Login = registerRequest.Login,
+            Password = PasswordHasher.Hash(registerRequest.Password)
         };
 
         await _clientRepository.SaveAsync(client);
@@ -75,12 +66,17 @@ public class ClientService
     public async Task RemoveByLogin(string login)
     {
         var client = await _clientRepository.FindByLoginAsync(login);
-        if (client == null)
-            throw new ArgumentException("Client not found.");
+        ValidateClient(client);
 
         if (client.GetBalance() > 0)
             throw new InvalidOperationException("Client balance must be zero before deletion.");
 
         await _clientRepository.DeleteAsync(client);
+    }
+
+    private static void ValidateClient(Client client)
+    {
+        if (client == null)
+            throw new ArgumentException("Client not found.");
     }
 }

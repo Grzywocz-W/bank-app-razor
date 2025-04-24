@@ -7,7 +7,10 @@ public class CurrencyService
     private readonly HttpClient _httpClient;
     private readonly ILogger<CurrencyService> _logger;
 
-    public CurrencyService(HttpClient httpClient, ILogger<CurrencyService> logger)
+    public CurrencyService(
+        HttpClient httpClient,
+        ILogger<CurrencyService> logger
+    )
     {
         _httpClient = httpClient;
         _logger = logger;

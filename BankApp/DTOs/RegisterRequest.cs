@@ -2,7 +2,7 @@
 
 namespace BankApp.DTOs;
 
-public class ClientRequest
+public class RegisterRequest
 {
     [Required] public string Login { get; init; }
 

@@ -23,51 +23,46 @@ public class HomeController : Controller
     public IActionResult Login() => View();
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromForm] ClientRequest clientRequest)
+    public async Task<IActionResult> Login([FromForm] LoginRequest loginRequest)
     {
-        ClientResponse client;
-
         try
         {
-            client = await _clientService.FindByLogin(clientRequest.Login);
+            var client = await _clientService.Authenticate(
+                loginRequest.Login,
+                loginRequest.Password
+            );
+
+            HttpContext.Session.SetString("ClientId", client.ClientId.ToString());
+            return RedirectToAction("MyAccounts", "Client");
         }
-        catch (ArgumentException ex)
+        catch (Exception ex)
         {
             TempData["Error"] = ex.Message;
-            return View(clientRequest);
+            return View(loginRequest);
         }
-
-        if (client.Password != clientRequest.Password)
-        {
-            TempData["Error"] = "Invalid login credentials.";
-            return View();
-        }
-
-        HttpContext.Session.SetString("ClientId", client.ClientId.ToString());
-        return RedirectToAction("MyAccounts", "Client");
     }
 
     [HttpGet("register")]
     public IActionResult Register() => View();
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromForm] ClientRequest clientRequest)
+    public async Task<IActionResult> Register([FromForm] RegisterRequest registerRequest)
     {
         if (!ModelState.IsValid)
         {
             TempData["Error"] = "Passwords do not match.";
-            return View(clientRequest);
+            return View(registerRequest);
         }
 
         try
         {
-            await _clientService.Save(clientRequest);
+            await _clientService.Save(registerRequest);
             return RedirectToAction("Login");
         }
         catch (Exception ex)
         {
             TempData["Error"] = ex.Message;
-            return View(clientRequest);
+            return View(registerRequest);
         }
     }
 }

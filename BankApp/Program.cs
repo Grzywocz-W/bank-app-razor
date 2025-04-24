@@ -6,19 +6,15 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Rejestracja repozytoriów
 builder.Services.AddScoped<ClientRepository>();
 builder.Services.AddScoped<AccountRepository>();
 builder.Services.AddScoped<TransactionRepository>();
 
-
-// Rejestracja serwisów
 builder.Services.AddScoped<ClientService>();
 builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<TransactionService>();
 builder.Services.AddHttpClient<CurrencyService>();
 
-// Rejestracja sesji
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -27,12 +23,21 @@ builder.Services.AddSession(options =>
     options.IdleTimeout = TimeSpan.FromMinutes(30);
 });
 
-// Rejestracja baz danych
+// var host = Environment.GetEnvironmentVariable("DB_HOST");
+// var port = Environment.GetEnvironmentVariable("DB_PORT");
+// var database = Environment.GetEnvironmentVariable("DB_NAME");
+// var username = Environment.GetEnvironmentVariable("DB_USER");
+// var password = Environment.GetEnvironmentVariable("DB_PASSWORD");
+//
+// var connectionString = $"Host={host};Port={port};Database={database};Username={username};Password={password}";
+//
+// builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//     options.UseNpgsql(connectionString)
+// );
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-// Rejestracja kontrolerów
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -43,18 +48,9 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
 
-// Definiowanie domyślnej trasy, która będzie przekierowywać na stronę logowania
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}"); // Domyślnie akcja Login w kontrolerze Client
-
-// app.UseEndpoints(endpoints =>
-// {
-//     // Zmieniamy domyślny kontroler na Home, a akcję na Index
-//     endpoints.MapControllerRoute(
-//         name: "default",
-//         pattern: "{controller=Home}/{action=Index}/{id?}");
-// });
+    pattern: "{controller=Home}/{action=Index}/{id?}"); 
 
 var cultureInfo = new CultureInfo("en-US");
 CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
@@ -70,4 +66,4 @@ else
     app.UseHsts();
 }
 
-app.Run("http://localhost:5062"); // Ustawienie portu, na którym aplikacja będzie uruchomiona
+app.Run(); 

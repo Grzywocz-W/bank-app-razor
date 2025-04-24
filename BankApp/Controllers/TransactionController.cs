@@ -21,8 +21,6 @@ public class TransactionController : Controller
         
         try
         {
-            
-            
             var transactions = await _transactionService.GetByAccountId(accountId);
             ViewData["AccountId"] = accountId;
             return View(transactions);
