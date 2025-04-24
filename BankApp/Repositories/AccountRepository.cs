@@ -36,11 +36,9 @@ public class AccountRepository
             .Select(t => t.Id)
             .ToListAsync();
 
-        // Usuwamy konto
         _context.Accounts.Remove(account);
         await _context.SaveChangesAsync();
 
-        // Sprawdzamy, które transakcje są już „osierocone” (żadne z kont nie istnieje)
         var orphanedTransactions = await _context.Transactions
             .Where(t => relatedTransactionIds.Contains(t.Id))
             .Where(t =>

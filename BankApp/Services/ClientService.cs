@@ -17,8 +17,7 @@ public class ClientService
     public async Task<ClientResponse> FindById(long clientId)
     {
         var client = await _clientRepository.FindByIdAsync(clientId);
-        if (client == null)
-            throw new ArgumentException("Client not found.");
+        ValidateClient(client);
 
         var accounts = client.Accounts.Select(a => new AccountResponse
             {
@@ -31,7 +30,6 @@ public class ClientService
 
         return new ClientResponse
         {
-            ClientId = client.ClientId,
             Login = client.Login,
             Accounts = accounts
         };
@@ -40,8 +38,7 @@ public class ClientService
     public async Task<Client?> Authenticate(string login, string password)
     {
         var client = await _clientRepository.FindByLoginAsync(login);
-        if (client == null)
-            throw new ArgumentException("Client not found.");
+        ValidateClient(client);
 
         if (!PasswordHasher.Verify(password, client.Password))
             throw new ArgumentException("Invalid password.");
@@ -69,12 +66,17 @@ public class ClientService
     public async Task RemoveByLogin(string login)
     {
         var client = await _clientRepository.FindByLoginAsync(login);
-        if (client == null)
-            throw new ArgumentException("Client not found.");
+        ValidateClient(client);
 
         if (client.GetBalance() > 0)
             throw new InvalidOperationException("Client balance must be zero before deletion.");
 
         await _clientRepository.DeleteAsync(client);
+    }
+
+    private static void ValidateClient(Client client)
+    {
+        if (client == null)
+            throw new ArgumentException("Client not found.");
     }
 }
