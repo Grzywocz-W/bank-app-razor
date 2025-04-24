@@ -21,6 +21,9 @@ obj/
 .idea/
 *.sln.iml
 
+appsettings.json
+bankapp-secure.tar
+Dockerfile
 
 # .NET build artifacts
 bin/
