@@ -7,3 +7,10 @@
 # Username=postgres
 # Password=BLiraehHeHeTuohSwqaplMjhTTCidOWv
 # jak cos to w bazie jest uzytkownik z loginem i haslem "1"
+#
+#docker build -t bankapp-image .
+#docker save -o bankapp-image.tar bankapp-image
+
+#docker load -i bankapp-image.tar
+#docker run -d -p 8080:80 bankapp-image
+
