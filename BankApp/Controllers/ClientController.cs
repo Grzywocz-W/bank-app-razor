@@ -15,11 +15,11 @@ public class ClientController : Controller
     [HttpGet("myaccounts")]
     public async Task<IActionResult> MyAccounts()
     {
-        var clientId = HttpContext.Session.GetString("ClientId");
-        if (clientId == null)
+        var clientIdString = HttpContext.Session.GetString("ClientId");
+        if (!long.TryParse(clientIdString, out var clientId))
             return RedirectToAction("", "Home");
 
-        var client = await _clientService.FindById(long.Parse(clientId));
+        var client = await _clientService.FindById(clientId);
         ViewData["ClientId"] = clientId;
 
         return View(
@@ -32,15 +32,14 @@ public class ClientController : Controller
     [HttpPost("client/delete")]
     public async Task<IActionResult> Delete()
     {
-        var clientId = HttpContext.Session.GetString("ClientId");
-
-        if (string.IsNullOrEmpty(clientId))
+        var clientIdString = HttpContext.Session.GetString("ClientId");
+        if (!long.TryParse(clientIdString, out var clientId))
         {
             TempData["Error"] = "You must be logged in to delete your account.";
             return RedirectToAction("Login", "Home");
         }
 
-        var client = await _clientService.FindById(long.Parse(clientId));
+        var client = await _clientService.FindById(clientId);
 
         try
         {

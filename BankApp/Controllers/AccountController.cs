@@ -24,14 +24,14 @@ public class AccountController : Controller
     {
         try
         {
-            var clientId = HttpContext.Session.GetString("ClientId");
-            if (clientId == null)
+            var clientIdString = HttpContext.Session.GetString("ClientId");
+            if (!long.TryParse(clientIdString, out var clientId))
             {
                 TempData["Error"] = "You must be logged in to create an account.";
                 return RedirectToAction("Login", "Home");
             }
 
-            accountRequest.ClientId = long.Parse(clientId);
+            accountRequest.ClientId = clientId;
 
             await _accountService.Save(accountRequest);
             return RedirectToAction("MyAccounts", "Client");
@@ -53,8 +53,6 @@ public class AccountController : Controller
         try
         {
             await _accountService.Transfer(fromId, toId, amount);
-
-            TempData["Success"] = "Transfer completed successfully.";
             return RedirectToAction("MyAccounts", "Client");
         }
         catch (Exception ex)
@@ -73,8 +71,6 @@ public class AccountController : Controller
         try
         {
             await _accountService.Withdraw(id, amount);
-
-            TempData["Success"] = "Withdrawal completed successfully.";
             return RedirectToAction("MyAccounts", "Client");
         }
         catch (Exception ex)

@@ -27,19 +27,38 @@ public class TransactionService
         await _transactionRepository.SaveAsync(transaction);
     }
 
-    public async Task<List<TransactionResponse>> GetByAccountId(long accountId)
+    public async Task<(List<TransactionResponse> Transactions, int TotalCount)> GetPagedByAccountId(
+        long accountId,
+        int page,
+        int pageSize
+    )
     {
         var transactions = await _transactionRepository
             .GetTransactionsByAccountIdAsync(accountId);
+        var totalCount = transactions.Count;
 
-        return transactions.Select(t => new TransactionResponse
+        var paged = transactions
+            .OrderByDescending(t => t.TransactionDate)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .Select(t => new TransactionResponse
             {
                 FromAccountId = t.FromAccountId,
                 ToAccountId = t.ToAccountId,
                 Amount = t.Amount,
                 Currency = t.Currency,
                 TransactionDate = t.TransactionDate
-            }
-        ).ToList();
+            })
+            .ToList();
+
+        return (paged, totalCount);
+    }
+
+    public async Task<bool> IsAccountOwnedByClient(
+        long accountId,
+        long clientId
+    )
+    {
+        return await _transactionRepository.IsAccountOwnedByClientAsync(accountId, clientId);
     }
 }
