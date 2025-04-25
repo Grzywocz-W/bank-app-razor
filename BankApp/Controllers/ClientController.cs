@@ -45,6 +45,7 @@ public class ClientController : Controller
         {
             await _clientService.RemoveByLogin(client.Login);
             HttpContext.Session.Remove("ClientId");
+            TempData["Success"] = "Client account deleted successfully.";
             return RedirectToAction("Index", "Home");
         }
         catch (Exception ex)
@@ -58,6 +59,7 @@ public class ClientController : Controller
     public IActionResult Logout()
     {
         HttpContext.Session.Remove("ClientId");
+        TempData["Success"] = "You have been logged out successfully.";
         return RedirectToAction("Index", "Home");
     }
 }

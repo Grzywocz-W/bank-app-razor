@@ -34,6 +34,7 @@ public class AccountController : Controller
             accountRequest.ClientId = clientId;
 
             await _accountService.Save(accountRequest);
+            TempData["Success"] = "New account has been successfully created.";
             return RedirectToAction("MyAccounts", "Client");
         }
         catch (Exception ex)
@@ -53,6 +54,7 @@ public class AccountController : Controller
         try
         {
             await _accountService.Transfer(fromId, toId, amount);
+            TempData["Success"] = "Transfer completed successfully.";
             return RedirectToAction("MyAccounts", "Client");
         }
         catch (Exception ex)
@@ -71,6 +73,7 @@ public class AccountController : Controller
         try
         {
             await _accountService.Withdraw(id, amount);
+            TempData["Success"] = "Withdrawal completed successfully.";
             return RedirectToAction("MyAccounts", "Client");
         }
         catch (Exception ex)
@@ -86,6 +89,7 @@ public class AccountController : Controller
         try
         {
             await _accountService.Delete(accountId);
+            TempData["Success"] = "Account deleted successfully.";
             return RedirectToAction("MyAccounts", "Client");
         }
         catch (Exception ex)
