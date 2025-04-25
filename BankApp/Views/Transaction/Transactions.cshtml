@@ -13,8 +13,9 @@
         height: 100%;
         margin: 0;
         font-family: 'Segoe UI', sans-serif;
-        background: linear-gradient(145deg, #373b3e 30%, #4a3d9e);
+        background: linear-gradient(145deg, #373b3e 30%, #4a3d9e) fixed;
         color: white;
+        overflow-x: hidden;
     }
 
     .main-wrapper {
@@ -125,7 +126,7 @@
             </div>
 
             <div class="text-center mt-4">
-                <a href="@Url.Action("MyAccounts", "Client")" class="btn-glow-secondary">Back to My Accounts</a>
+                <a href="@Url.Action("Dashboard", "Client")" class="btn-glow-secondary">Back to My Accounts</a>
             </div>
 
             <div class="card-body">
