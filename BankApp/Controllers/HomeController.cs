@@ -33,7 +33,7 @@ public class HomeController : Controller
             );
 
             HttpContext.Session.SetString("ClientId", client.ClientId.ToString());
-            return RedirectToAction("MyAccounts", "Client");
+            return RedirectToAction("Dashboard", "Client");
         }
         catch (Exception ex)
         {

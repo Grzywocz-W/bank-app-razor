@@ -12,8 +12,8 @@ public class ClientController : Controller
         _clientService = clientService;
     }
 
-    [HttpGet("myaccounts")]
-    public async Task<IActionResult> MyAccounts()
+    [HttpGet("dashboard")]
+    public async Task<IActionResult> Dashboard()
     {
         var clientIdString = HttpContext.Session.GetString("ClientId");
         if (!long.TryParse(clientIdString, out var clientId))
@@ -51,7 +51,7 @@ public class ClientController : Controller
         catch (Exception ex)
         {
             TempData["Error"] = ex.Message;
-            return RedirectToAction("MyAccounts", "Client");
+            return RedirectToAction("Dashboard", "Client");
         }
     }
 

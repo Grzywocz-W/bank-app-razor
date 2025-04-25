@@ -35,7 +35,7 @@ public class AccountController : Controller
 
             await _accountService.Save(accountRequest);
             TempData["Success"] = "New account has been successfully created.";
-            return RedirectToAction("MyAccounts", "Client");
+            return RedirectToAction("Dashboard", "Client");
         }
         catch (Exception ex)
         {
@@ -55,12 +55,12 @@ public class AccountController : Controller
         {
             await _accountService.Transfer(fromId, toId, amount);
             TempData["Success"] = "Transfer completed successfully.";
-            return RedirectToAction("MyAccounts", "Client");
+            return RedirectToAction("Dashboard", "Client");
         }
         catch (Exception ex)
         {
             TempData["Error"] = ex.Message;
-            return RedirectToAction("MyAccounts", "Client");
+            return RedirectToAction("Dashboard", "Client");
         }
     }
 
@@ -74,12 +74,12 @@ public class AccountController : Controller
         {
             await _accountService.Withdraw(id, amount);
             TempData["Success"] = "Withdrawal completed successfully.";
-            return RedirectToAction("MyAccounts", "Client");
+            return RedirectToAction("Dashboard", "Client");
         }
         catch (Exception ex)
         {
             TempData["Error"] = ex.Message;
-            return RedirectToAction("MyAccounts", "Client");
+            return RedirectToAction("Dashboard", "Client");
         }
     }
 
@@ -90,12 +90,12 @@ public class AccountController : Controller
         {
             await _accountService.Delete(accountId);
             TempData["Success"] = "Account deleted successfully.";
-            return RedirectToAction("MyAccounts", "Client");
+            return RedirectToAction("Dashboard", "Client");
         }
         catch (Exception ex)
         {
             TempData["Error"] = ex.Message;
-            return RedirectToAction("MyAccounts", "Client");
+            return RedirectToAction("Dashboard", "Client");
         }
     }
 }
