@@ -1,4 +1,5 @@
-﻿using BankApp.Services;
+﻿using BankApp.DTOs;
+using BankApp.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankApp.Controllers;
@@ -12,14 +13,61 @@ public class ClientController : Controller
         _clientService = clientService;
     }
 
-    [HttpGet("myaccounts")]
-    public async Task<IActionResult> MyAccounts()
-    {
-        var clientId = HttpContext.Session.GetString("ClientId");
-        if (clientId == null)
-            return RedirectToAction("", "Home");
+    [HttpGet("register")]
+    public IActionResult Register() => View();
 
-        var client = await _clientService.FindById(long.Parse(clientId));
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromForm] RegisterRequest registerRequest)
+    {
+        if (!ModelState.IsValid)
+        {
+            TempData["Error"] = "Invalid login or passwords.";
+            return View(registerRequest);
+        }
+
+        try
+        {
+            await _clientService.Save(registerRequest);
+            return RedirectToAction("Login");
+        }
+        catch (Exception ex)
+        {
+            TempData["Error"] = ex.Message;
+            return View(registerRequest);
+        }
+    }
+
+    [HttpGet("login")]
+    public IActionResult Login() => View();
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromForm] LoginRequest loginRequest)
+    {
+        try
+        {
+            var client = await _clientService.Authenticate(
+                loginRequest.Login,
+                loginRequest.Password
+            );
+
+            HttpContext.Session.SetString("ClientId", client.ClientId.ToString());
+            return RedirectToAction("Dashboard", "Client");
+        }
+        catch (Exception ex)
+        {
+            TempData["Error"] = ex.Message;
+            return View(loginRequest);
+        }
+    }
+
+    [HttpGet("dashboard")]
+    public async Task<IActionResult> Dashboard()
+    {
+        var clientIdString = HttpContext.Session.GetString("ClientId");
+        if (!long.TryParse(clientIdString, out var clientId))
+            return RedirectToAction("Index", "Home");
+
+        var client = await _clientService.FindById(clientId);
         ViewData["ClientId"] = clientId;
 
         return View(
@@ -29,36 +77,37 @@ public class ClientController : Controller
         );
     }
 
+    [HttpPost("logout")]
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Remove("ClientId");
+        TempData["Success"] = "You have been logged out successfully.";
+        return RedirectToAction("Index", "Home");
+    }
+
     [HttpPost("client/delete")]
     public async Task<IActionResult> Delete()
     {
-        var clientId = HttpContext.Session.GetString("ClientId");
-
-        if (string.IsNullOrEmpty(clientId))
+        var clientIdString = HttpContext.Session.GetString("ClientId");
+        if (!long.TryParse(clientIdString, out var clientId))
         {
             TempData["Error"] = "You must be logged in to delete your account.";
-            return RedirectToAction("Login", "Home");
+            return RedirectToAction("Login", "Client");
         }
 
-        var client = await _clientService.FindById(long.Parse(clientId));
+        var client = await _clientService.FindById(clientId);
 
         try
         {
             await _clientService.RemoveByLogin(client.Login);
             HttpContext.Session.Remove("ClientId");
+            TempData["Success"] = "Client account deleted successfully.";
             return RedirectToAction("Index", "Home");
         }
         catch (Exception ex)
         {
             TempData["Error"] = ex.Message;
-            return RedirectToAction("MyAccounts", "Client");
+            return RedirectToAction("Dashboard", "Client");
         }
-    }
-
-    [HttpPost("logout")]
-    public IActionResult Logout()
-    {
-        HttpContext.Session.Remove("ClientId");
-        return RedirectToAction("Index", "Home");
     }
 }

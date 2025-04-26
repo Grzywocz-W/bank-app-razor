@@ -24,6 +24,7 @@ obj/
 appsettings.json
 bankapp-secure.tar
 Dockerfile
+.git
 
 # .NET build artifacts
 bin/

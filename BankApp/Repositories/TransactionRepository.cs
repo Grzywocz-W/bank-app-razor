@@ -26,4 +26,10 @@ public class TransactionRepository
             .OrderByDescending(t => t.TransactionDate)
             .ToListAsync();
     }
+    
+    public async Task<bool> IsAccountOwnedByClientAsync(long accountId, long clientId)
+    {
+        return await _context.Accounts
+            .AnyAsync(a => a.AccountId == accountId && a.ClientId == clientId);
+    }
 }
