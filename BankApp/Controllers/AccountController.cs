@@ -28,7 +28,7 @@ public class AccountController : Controller
             if (!long.TryParse(clientIdString, out var clientId))
             {
                 TempData["Error"] = "You must be logged in to create an account.";
-                return RedirectToAction("Login", "Home");
+                return RedirectToAction("Index", "Home");
             }
 
             accountRequest.ClientId = clientId;

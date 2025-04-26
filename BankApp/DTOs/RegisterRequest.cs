@@ -12,6 +12,6 @@ public class RegisterRequest
 
     [Required]
     [DataType(DataType.Password)]
-    [Compare("Password", ErrorMessage = "Passwords do not match.")]
+    [Compare("Password")]
     public string ConfirmPassword { get; init; }
 }
