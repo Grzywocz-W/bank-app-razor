@@ -1,4 +1,5 @@
-﻿using BankApp.DTOs;
+﻿using AutoMapper;
+using BankApp.DTOs;
 using BankApp.Models;
 using BankApp.Repositories;
 
@@ -9,16 +10,19 @@ public class AccountService
     private readonly AccountRepository _accountRepository;
     private readonly TransactionService _transactionService;
     private readonly CurrencyService _currencyService;
+    private readonly IMapper _mapper;
 
     public AccountService(
         AccountRepository accountRepository,
         TransactionService transactionService,
-        CurrencyService currencyService
+        CurrencyService currencyService,
+        IMapper mapper
     )
     {
         _accountRepository = accountRepository;
         _transactionService = transactionService;
         _currencyService = currencyService;
+        _mapper = mapper;
     }
 
     public async Task Save(AccountRequest accountRequest)
@@ -26,12 +30,7 @@ public class AccountService
         if (accountRequest.Balance is < 0 or > (decimal)AccountRequest.MaxBalance)
             throw new ArgumentException("Invalid balance.");
 
-        var account = new Account
-        {
-            Balance = accountRequest.Balance,
-            Currency = accountRequest.Currency,
-            ClientId = accountRequest.ClientId
-        };
+        var account = _mapper.Map<Account>(accountRequest);
 
         await _accountRepository.SaveAsync(account);
     }
@@ -74,13 +73,12 @@ public class AccountService
         await _accountRepository.SaveAsync(toAccount);
 
         await _transactionService.Save(new TransactionRequest
-            {
-                FromAccountId = fromId,
-                ToAccountId = toId,
-                Amount = amount,
-                Currency = fromAccount.Currency,
-            }
-        );
+        {
+            FromAccountId = fromId,
+            ToAccountId = toId,
+            Amount = amount,
+            Currency = fromAccount.Currency,
+        });
     }
 
     public async Task Withdraw(
@@ -96,12 +94,11 @@ public class AccountService
         await _accountRepository.SaveAsync(account);
 
         await _transactionService.Save(new TransactionRequest
-            {
-                FromAccountId = id,
-                Amount = amount,
-                Currency = account.Currency,
-            }
-        );
+        {
+            FromAccountId = id,
+            Amount = amount,
+            Currency = account.Currency,
+        });
     }
 
     public async Task Delete(long accountId)
@@ -115,13 +112,16 @@ public class AccountService
         await _accountRepository.DeleteAsync(account);
     }
 
-    private static void ValidateAccount(Account account)
+    private static void ValidateAccount(Account? account)
     {
         if (account == null)
             throw new ArgumentException("Account not found.");
     }
 
-    private static void ValidateAmountAndBalance(decimal amount, Account account)
+    private static void ValidateAmountAndBalance(
+        decimal amount,
+        Account account
+    )
     {
         if (amount is < 0 or > (decimal)TransactionRequest.MaxAmount)
             throw new InvalidOperationException("Invalid amount.");

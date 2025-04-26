@@ -1,4 +1,5 @@
-﻿using BankApp.DTOs;
+﻿using AutoMapper;
+using BankApp.DTOs;
 using BankApp.Models;
 using BankApp.Repositories;
 using BankApp.Security;
@@ -8,10 +9,15 @@ namespace BankApp.Services;
 public class ClientService
 {
     private readonly ClientRepository _clientRepository;
+    private readonly IMapper _mapper;
 
-    public ClientService(ClientRepository clientRepository)
+    public ClientService(
+        ClientRepository clientRepository,
+        IMapper mapper
+    )
     {
         _clientRepository = clientRepository;
+        _mapper = mapper;
     }
 
     public async Task<ClientResponse> FindById(long clientId)
@@ -19,23 +25,13 @@ public class ClientService
         var client = await _clientRepository.FindByIdAsync(clientId);
         ValidateClient(client);
 
-        var accounts = client.Accounts.Select(a => new AccountResponse
-            {
-                AccountId = a.AccountId,
-                Balance = a.Balance,
-                Currency = a.Currency,
-                ClientId = a.ClientId
-            }
-        ).ToList();
-
-        return new ClientResponse
-        {
-            Login = client.Login,
-            Accounts = accounts
-        };
+        return _mapper.Map<ClientResponse>(client);
     }
 
-    public async Task<Client?> Authenticate(string login, string password)
+    public async Task<Client?> Authenticate(
+        string login,
+        string password
+    )
     {
         var client = await _clientRepository.FindByLoginAsync(login);
         ValidateClient(client);
@@ -50,15 +46,11 @@ public class ClientService
     {
         var existing = await _clientRepository
             .FindByLoginAsync(registerRequest.Login);
-        
+
         if (existing != null)
             throw new InvalidOperationException("Login already taken.");
-        
-        var client = new Client
-        {
-            Login = registerRequest.Login,
-            Password = PasswordHasher.Hash(registerRequest.Password)
-        };
+
+        var client = _mapper.Map<Client>(registerRequest);
 
         await _clientRepository.SaveAsync(client);
     }
