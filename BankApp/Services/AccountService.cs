@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BankApp.Constants;
 using BankApp.DTOs;
 using BankApp.Models;
 using BankApp.Repositories;
@@ -27,7 +28,7 @@ public class AccountService
 
     public async Task Save(AccountRequest accountRequest)
     {
-        if (accountRequest.Balance is < 0 or > (decimal)AccountRequest.MaxBalance)
+        if (accountRequest.Balance is < 0 or > (decimal)AccountConstraints.MaxValue)
             throw new ArgumentException("Invalid balance.");
 
         var account = _mapper.Map<Account>(accountRequest);
@@ -73,12 +74,13 @@ public class AccountService
         await _accountRepository.SaveAsync(toAccount);
 
         await _transactionService.Save(new TransactionRequest
-        {
-            FromAccountId = fromId,
-            ToAccountId = toId,
-            Amount = amount,
-            Currency = fromAccount.Currency,
-        });
+            {
+                FromAccountId = fromId,
+                ToAccountId = toId,
+                Amount = amount,
+                Currency = fromAccount.Currency
+            }
+        );
     }
 
     public async Task Withdraw(
@@ -94,11 +96,12 @@ public class AccountService
         await _accountRepository.SaveAsync(account);
 
         await _transactionService.Save(new TransactionRequest
-        {
-            FromAccountId = id,
-            Amount = amount,
-            Currency = account.Currency,
-        });
+            {
+                FromAccountId = id,
+                Amount = amount,
+                Currency = account.Currency
+            }
+        );
     }
 
     public async Task Delete(long accountId)
@@ -123,7 +126,7 @@ public class AccountService
         Account account
     )
     {
-        if (amount is < 0 or > (decimal)TransactionRequest.MaxAmount)
+        if (amount is < 0 or > (decimal)AccountConstraints.MaxValue)
             throw new InvalidOperationException("Invalid amount.");
 
         if (account.Balance < amount)
