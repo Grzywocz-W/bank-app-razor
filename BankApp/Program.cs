@@ -1,5 +1,7 @@
 using System.Globalization;
+using BankApp;
 using BankApp.Data;
+using BankApp.Mappers;
 using BankApp.Repositories;
 using BankApp.Services;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +24,8 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
     options.IdleTimeout = TimeSpan.FromMinutes(30);
 });
+
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 // var host = Environment.GetEnvironmentVariable("DB_HOST");
 // var port = Environment.GetEnvironmentVariable("DB_PORT");
