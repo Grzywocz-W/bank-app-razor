@@ -21,7 +21,7 @@ This diagram shows the use cases necessary for the project to function. The back
 The following is the database schema created using SQL Server, which defines the structure for users, accounts, and transactions.
 
 <p align="center">
-  <img width="75%" height="75%" src="https://github.com/YourUsername/BankApp/blob/main/readmeImages/Database.png">
+  <img width="75%" height="75%" src="![Image](https://github.com/user-attachments/assets/aab2cc25-449e-4a08-bccb-eafe03fa3a66)">
 </p>
 
 ## Endpoints
