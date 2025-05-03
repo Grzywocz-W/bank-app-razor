@@ -21,7 +21,6 @@ obj/
 .idea/
 *.sln.iml
 
-appsettings.json
 bankapp-secure.tar
 Dockerfile
 .git
@@ -30,7 +29,6 @@ Dockerfile
 bin/
 obj/
 BankApp/obj/
-
 
 # Rider
 .idea/
