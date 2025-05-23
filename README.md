@@ -17,21 +17,16 @@ This diagram shows the use cases necessary for the project to function. The back
   <img width="75%" height="75%" src="https://github.com/YourUsername/BankApp/blob/main/readmeImages/UseCases.png">
 </p>
 
-## Database Schema (SQL Server)
-The following is the database schema created using SQL Server, which defines the structure for users, accounts, and transactions.
+## Database Schema (PostgreSQL on Railway)
+The following is the database schema created using PostgreSQL and hosted on the Railway cloud platform, defining the structure for users, accounts, and transactions.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/bcbbe16c-d6ef-4c69-985f-270b110a7f3c">
 </p>
 
 ## Endpoints
-Below are the key endpoints of the REST API, shown with sample responses from the Postman application.
+Below are the key endpoints of controllers, created using Swagger.
 
-<p align="center">
-  <img width="75%" height="75%" src="https://github.com/YourUsername/BankApp/blob/main/readmeImages/Postman.png">
-</p>
-
-Sample payment API documentation:
 <p align="center">
   <img src="https://github.com/user-attachments/assets/9b45b2ed-2d63-4d8b-b1af-e82e5eb72fa1">
 </p>
