@@ -25,7 +25,7 @@ The following is the database schema created using PostgreSQL and hosted on the 
 </p>
 
 ## Endpoints
-Below are the key endpoints of controllers, created using Swagger.
+Below are the API documentation, created using Swagger, details the available endpoints. Please note that the Razor views handle only GET and POST requests, which is a common limitation due to HTML form method support.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/9b45b2ed-2d63-4d8b-b1af-e82e5eb72fa1">
