@@ -1,5 +1,4 @@
 using System.Globalization;
-using BankApp;
 using BankApp.Data;
 using BankApp.Mappers;
 using BankApp.Repositories;
@@ -11,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<ClientRepository>();
 builder.Services.AddScoped<AccountRepository>();
 builder.Services.AddScoped<TransactionRepository>();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ClientService>();
 builder.Services.AddScoped<AccountService>();
@@ -27,17 +28,6 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-// var host = Environment.GetEnvironmentVariable("DB_HOST");
-// var port = Environment.GetEnvironmentVariable("DB_PORT");
-// var database = Environment.GetEnvironmentVariable("DB_NAME");
-// var username = Environment.GetEnvironmentVariable("DB_USER");
-// var password = Environment.GetEnvironmentVariable("DB_PASSWORD");
-//
-// var connectionString = $"Host={host};Port={port};Database={database};Username={username};Password={password}";
-//
-// builder.Services.AddDbContext<ApplicationDbContext>(options =>
-//     options.UseNpgsql(connectionString)
-// );
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
@@ -46,15 +36,22 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
 // Middleware
 app.UseSession();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
+app.MapControllers();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}"); 
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 var cultureInfo = new CultureInfo("en-US");
 CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
@@ -70,4 +67,4 @@ else
     app.UseHsts();
 }
 
-app.Run(); 
+app.Run();
