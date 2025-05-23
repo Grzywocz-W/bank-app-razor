@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BankApp.Controllers;
 
+[Route("account")]
 public class AccountController : Controller
 {
     private readonly AccountService _accountService;
@@ -22,17 +23,16 @@ public class AccountController : Controller
     [HttpPost("create")]
     public async Task<IActionResult> Create([FromForm] AccountRequest accountRequest)
     {
+        var clientIdString = HttpContext.Session.GetString("ClientId");
+        if (!long.TryParse(clientIdString, out var clientId))
+        {
+            TempData["Error"] = "You must be logged in to create an account.";
+            return RedirectToAction("Index", "Home");
+        }
+
+        accountRequest.ClientId = clientId;
         try
         {
-            var clientIdString = HttpContext.Session.GetString("ClientId");
-            if (!long.TryParse(clientIdString, out var clientId))
-            {
-                TempData["Error"] = "You must be logged in to create an account.";
-                return RedirectToAction("Index", "Home");
-            }
-
-            accountRequest.ClientId = clientId;
-
             await _accountService.Save(accountRequest);
             TempData["Success"] = "New account has been successfully created.";
             return RedirectToAction("Dashboard", "Client");
@@ -83,7 +83,7 @@ public class AccountController : Controller
         }
     }
 
-    [HttpPost("account/delete")]
+    [HttpPost("delete")]
     public async Task<IActionResult> Delete([FromForm] long accountId)
     {
         try

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BankApp.Controllers;
 
+[Route("client")]
 public class ClientController : Controller
 {
     private readonly ClientService _clientService;
@@ -85,7 +86,7 @@ public class ClientController : Controller
         return RedirectToAction("Index", "Home");
     }
 
-    [HttpPost("client/delete")]
+    [HttpPost("delete")]
     public async Task<IActionResult> Delete()
     {
         var clientIdString = HttpContext.Session.GetString("ClientId");
