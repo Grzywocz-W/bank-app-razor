@@ -110,13 +110,13 @@
                 <p>Create your account</p>
             </div>
             <div class="card-body">
-                <form asp-action="Register" method="post">
+                <form asp-controller="Client" form asp-action="Register" method="post">
                     <div class="form-group mb-3">
                         <label for="Login">Login</label>
                         <div class="input-icon">
                             <i class="fa fa-user"></i>
                             <input type="text" class="form-control" id="Login" name="Login"
-                                   placeholder="Enter login" value="@Model?.Login"/>
+                                   placeholder="Enter login" value="@Model.Login"/>
                         </div>
                     </div>
 
@@ -125,7 +125,7 @@
                         <div class="input-icon">
                             <i class="fa fa-lock"></i>
                             <input type="password" class="form-control" id="Password" name="Password"
-                                   placeholder="Enter password" value="@Model?.Password"/>
+                                   placeholder="Enter password" value="@Model.Password"/>
                         </div>
                     </div>
 

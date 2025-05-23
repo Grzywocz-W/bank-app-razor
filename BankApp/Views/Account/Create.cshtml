@@ -1,5 +1,6 @@
 @using BankApp.Models
 @using Microsoft.AspNetCore.Mvc.TagHelpers
+@using BankApp.Constants
 @model BankApp.DTOs.AccountRequest
 
 @{
@@ -110,7 +111,8 @@
                 <p>Provide details to create a new account</p>
             </div>
             <div class="card-body">
-                <form asp-action="Create" method="post">
+                <form asp-controller="Account" asp-action="Create" method="post">
+                    
                     <!-- Initial Balance with 2 decimal precision -->
                     <div class="form-group mb-3">
                         <label asp-for="Balance" class="form-label">Initial Balance</label>
@@ -119,7 +121,7 @@
                                placeholder="Enter initial balance"
                                step="0.01"
                                min="0.00"
-                               max="1000000000000"
+                               max="@AccountConstraints.MaxValue"
                                type="number"
                                required/>
                     </div>

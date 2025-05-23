@@ -1,3 +1,4 @@
+@using BankApp.Constants
 @model List<BankApp.DTOs.AccountResponse>
 
 @{
@@ -246,6 +247,7 @@
                     <div class="account-card">
                         <div class="card-title">
                             Account ID: @account.AccountId
+                            
                             <!-- Ikona kopiowania obok numeru konta -->
                             <i class="fa fa-copy copy-icon" onclick="copyToClipboard('@account.AccountId')"
                                title="Copy to clipboard"></i>
@@ -254,6 +256,7 @@
                             <p><strong>Balance:</strong> @account.Balance @account.Currency</p>
 
                             <div class="d-flex gap-2 mt-3">
+                                
                                 <!-- Withdraw Button -->
                                 <button class="btn btn-glow btn-sm" data-bs-toggle="modal"
                                         data-bs-target="#withdrawModal_@account.AccountId">
@@ -299,7 +302,7 @@
                                     <form asp-controller="Account" asp-action="Withdraw" method="post">
                                         <input type="hidden" name="id" value="@account.AccountId"/>
                                         <input type="number" name="amount" placeholder="Amount"
-                                               class="form-control" step="0.01" min="0.01" max="1000000000000"
+                                               class="form-control" step="0.01" min="0.01" max="@AccountConstraints.MaxValue"
                                                required/>
                                         <div class="text-center">
                                             <button type="submit" class="btn btn-glow mt-3">Withdraw</button>
@@ -332,7 +335,7 @@
 
                                         <div class="mb-3">
                                             <input type="number" name="amount" placeholder="Amount"
-                                                   class="form-control" step="0.01" min="0.01" max="1000000000000"
+                                                   class="form-control" step="0.01" min="0.01" max="@AccountConstraints.MaxValue"
                                                    required/>
                                         </div>
 
@@ -351,6 +354,7 @@
 
     <script>
         function copyToClipboard(accountId) {
+            
             // Tworzymy tymczasowy element input, który będzie zawierał numer konta
             const tempInput = document.createElement("input");
             tempInput.value = accountId;
