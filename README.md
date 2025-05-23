@@ -1,14 +1,14 @@
-# REST API of the Bank Application Project
+# Web Bank Application built with C# ASP.NET Core MVC and Razor Views
 
 ## Project Description
-The project enables the operation of a bank system by providing necessary functionalities. The system consists of a web application built with ASP.NET Core, using Razor views for the frontend. The backend is powered by REST API, which handles the core logic of bank operations.
+This project implements a bank system with essential functionalities. It is a web application built using ASP.NET Core MVC, with Razor Views rendering server-side HTML pages. The backend exposes HTTP endpoints that handle business logic and serve these views. While the application provides RESTful-style endpoints, it is not a pure REST API returning JSON, but rather a server-rendered web app with HTTP endpoints delivering HTML content.
 
 ## Key Functionalities of the Project
 - User registration and login
-- Authentication via JWT
 - Ability to create, view, and manage bank accounts
-- Transactions between accounts (deposit, withdrawal, transfer)
-- Generating financial reports (statements, transaction history)
+- Transactions between accounts (withdrawal, transfer)
+- Viewing transaction history
+- Currency conversion during transfers, using real-time exchange rates from an external API
 
 ## Use Case Diagram
 This diagram shows the use cases necessary for the project to function. The backend also implements additional functionalities not shown in the diagram below.
@@ -17,7 +17,7 @@ This diagram shows the use cases necessary for the project to function. The back
   <img width="75%" height="75%" src="https://github.com/YourUsername/BankApp/blob/main/readmeImages/UseCases.png">
 </p>
 
-## Database Schema (PostgreSQL on Railway)
+## Database Schema (PostgreSQL hosted on Railway)
 The following is the database schema created using PostgreSQL and hosted on the Railway cloud platform, defining the structure for users, accounts, and transactions.
 
 <p align="center">
@@ -69,20 +69,17 @@ Example of a client report:
   <img width="50%" height="50%" src="https://github.com/YourUsername/BankApp/blob/main/readmeImages/ClientReport.png">
 </p>
 
-## Technologies Used to Create the Backend
+## Technologies Used 
 - C#
 - ASP.NET Core
 - Razor Views
-- Entity Framework Core
-- JWT Authentication
-- SQL Server
-- Google OAuth
+- Entity Framework Core for ORM and database schema migrations
+- PostgreSQL hosted on Railway
 - AutoMapper
+- BCrypt.Net for passwords hashing
 - Swagger for API documentation
 
-## Useful Applications for Creating the Backend
+## Useful Applications 
 - Postman
-- Visual Studio
+- JetBrains Rider
 - GitHub
-- Swagger UI
-- Trello
