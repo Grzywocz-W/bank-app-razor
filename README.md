@@ -32,7 +32,9 @@ Below are the key endpoints of the REST API, shown with sample responses from th
 </p>
 
 Sample payment API documentation:
-[Link to Payment API Documentation](https://app.swaggerhub.com/apis-docs/BankApp/Payments/1.0.0)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/9b45b2ed-2d63-4d8b-b1af-e82e5eb72fa1">
+</p>
 
 ## Description of the Implementation of the Most Important Functionalities - Backend
 
