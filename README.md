@@ -9,8 +9,7 @@ This project implements a simple bank system with essential functionalities. It 
 - Transactions between accounts (withdrawal, transfer)
 - Viewing transaction history
 - Currency conversion during transfers, using real-time exchange rates from an external API
-
-## Use Case Diagram
+- Cookie-based authentication
 
 ## Database Schema (PostgreSQL hosted on Railway)
 The following is the database schema created using PostgreSQL and hosted on the Railway cloud platform, defining the structure for users, accounts, and transactions.
@@ -27,8 +26,7 @@ Below are the API documentation, created using Swagger, details the available en
 </p>
 
 ### Authorization and Authentication of Local Users
-User authentication is managed via JWT (JSON Web Tokens), which are issued during the login process. JWTs allow secure authentication for the user and enable protected API access.
-
+User authentication is managed using ASP.NET Core Cookie Authentication, which provides secure login and session management through cookies. This approach enables server-side session tracking and enforces authorization policies based on user roles, ensuring that only authenticated users can access protected resources.
 
 ## Technologies Used 
 - C#
@@ -39,6 +37,7 @@ User authentication is managed via JWT (JSON Web Tokens), which are issued durin
 - AutoMapper
 - BCrypt.Net for passwords hashing
 - Swagger for API documentation
+- ASP.NET Core Cookie Authentication
 
 ## Useful Applications 
 - Postman
