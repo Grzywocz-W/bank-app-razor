@@ -31,9 +31,9 @@ User authentication is managed using ASP.NET Core Cookie Authentication, which p
 ## App Screenshot
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/f5150261-32ee-47a7-af91-ea7822a8d77a" width="200"/>
-  <img src="https://github.com/user-attachments/assets/19d0ddc8-4304-4a56-84a3-50e88c4b1902" width="200"/>
-  <img src="https://github.com/user-attachments/assets/2c5b5fe6-b4b4-42f9-a573-f2112d05b8a4" width="200"/>
+  <img src="https://github.com/user-attachments/assets/f5150261-32ee-47a7-af91-ea7822a8d77a" height="200"/>
+  <img src="https://github.com/user-attachments/assets/19d0ddc8-4304-4a56-84a3-50e88c4b1902" height="200"/>
+  <img src="https://github.com/user-attachments/assets/2c5b5fe6-b4b4-42f9-a573-f2112d05b8a4" height="200"/>
 </p>
 
 ## Technologies Used 
