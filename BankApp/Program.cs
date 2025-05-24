@@ -1,5 +1,6 @@
 using System.Globalization;
 using BankApp.Data;
+using BankApp.Helpers;
 using BankApp.Mappers;
 using BankApp.Repositories;
 using BankApp.Services;
@@ -10,24 +11,26 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<ClientRepository>();
 builder.Services.AddScoped<AccountRepository>();
 builder.Services.AddScoped<TransactionRepository>();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ClientService>();
 builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<TransactionService>();
 builder.Services.AddHttpClient<CurrencyService>();
-
+builder.Services.AddScoped<UserHelper>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSession(options =>
-{
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
-});
+builder.Services.AddAuthentication("MyCookieAuth")
+    .AddCookie("MyCookieAuth", options =>
+    {
+        options.LoginPath = "/client/login";
+        options.AccessDeniedPath = "/home/index";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+    });
 
+builder.Services.AddAuthorization();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
-
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
@@ -43,11 +46,18 @@ if (app.Environment.IsDevelopment())
 }
 
 // Middleware
-app.UseSession();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
-app.MapControllers();
+
+app.Use(async (context, next) =>
+{
+    context.Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+    context.Response.Headers["Pragma"] = "no-cache";
+    context.Response.Headers["Expires"] = "0";
+    await next();
+});
 
 app.MapControllerRoute(
     name: "default",

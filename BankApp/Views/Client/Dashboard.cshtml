@@ -2,7 +2,6 @@
 @model List<BankApp.DTOs.AccountResponse>
 
 @{
-    var clientId = ViewData["ClientId"];
     ViewData["Title"] = "Your Accounts";
 }
 
@@ -215,22 +214,18 @@
             <a href="@Url.Action("Create", "Account")" class="btn btn-create-account btn-sm">
                 <i class="fa fa-plus"></i> Create New Account
             </a>
+            <form asp-controller="Client" asp-action="Logout" method="post">
+                <button type="submit" class="btn btn-danger btn-sm btn-custom">
+                    <i class="fa fa-sign-out-alt"></i> Logout
+                </button>
+            </form>
 
-            @if (clientId != null)
-            {
-                <form asp-controller="Client" asp-action="Logout" method="post">
-                    <button type="submit" class="btn btn-danger btn-sm btn-custom">
-                        <i class="fa fa-sign-out-alt"></i> Logout
-                    </button>
-                </form>
-
-                <form asp-controller="Client" asp-action="Delete" method="post">
-                    <button type="submit" class="btn btn-danger btn-sm btn-custom"
-                            onclick="return confirm('Are you sure you want to delete your client account? This action is irreversible!');">
-                        <i class="fa fa-user-slash"></i> Delete Client Account
-                    </button>
-                </form>
-            }
+            <form asp-controller="Client" asp-action="Delete" method="post">
+                <button type="submit" class="btn btn-danger btn-sm btn-custom"
+                        onclick="return confirm('Are you sure you want to delete your client account? This action is irreversible!');">
+                    <i class="fa fa-user-slash"></i> Delete Client Account
+                </button>
+            </form>
         </div>
 
         <div class="account-cards-container">
@@ -247,7 +242,7 @@
                     <div class="account-card">
                         <div class="card-title">
                             Account ID: @account.AccountId
-                            
+
                             <!-- Ikona kopiowania obok numeru konta -->
                             <i class="fa fa-copy copy-icon" onclick="copyToClipboard('@account.AccountId')"
                                title="Copy to clipboard"></i>
@@ -256,7 +251,7 @@
                             <p><strong>Balance:</strong> @account.Balance @account.Currency</p>
 
                             <div class="d-flex gap-2 mt-3">
-                                
+
                                 <!-- Withdraw Button -->
                                 <button class="btn btn-glow btn-sm" data-bs-toggle="modal"
                                         data-bs-target="#withdrawModal_@account.AccountId">
@@ -302,7 +297,8 @@
                                     <form asp-controller="Account" asp-action="Withdraw" method="post">
                                         <input type="hidden" name="id" value="@account.AccountId"/>
                                         <input type="number" name="amount" placeholder="Amount"
-                                               class="form-control" step="0.01" min="0.01" max="@AccountConstraints.MaxValue"
+                                               class="form-control" step="0.01" min="0.01"
+                                               max="@AccountConstraints.MaxValue"
                                                required/>
                                         <div class="text-center">
                                             <button type="submit" class="btn btn-glow mt-3">Withdraw</button>
@@ -335,7 +331,8 @@
 
                                         <div class="mb-3">
                                             <input type="number" name="amount" placeholder="Amount"
-                                                   class="form-control" step="0.01" min="0.01" max="@AccountConstraints.MaxValue"
+                                                   class="form-control" step="0.01" min="0.01"
+                                                   max="@AccountConstraints.MaxValue"
                                                    required/>
                                         </div>
 
@@ -354,7 +351,7 @@
 
     <script>
         function copyToClipboard(accountId) {
-            
+
             // Tworzymy tymczasowy element input, który będzie zawierał numer konta
             const tempInput = document.createElement("input");
             tempInput.value = accountId;

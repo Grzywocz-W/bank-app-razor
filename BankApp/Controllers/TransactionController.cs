@@ -1,17 +1,26 @@
+using BankApp.Helpers;
 using BankApp.Services;
 using BankApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankApp.Controllers;
 
+[ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
+[Authorize]
 [Route("transaction")]
 public class TransactionController : Controller
 {
     private readonly TransactionService _transactionService;
+    private readonly UserHelper _userHelper;
 
-    public TransactionController(TransactionService transactionService)
+    public TransactionController(
+        TransactionService transactionService,
+        UserHelper userHelper
+    )
     {
         _transactionService = transactionService;
+        _userHelper = userHelper;
     }
 
     [HttpGet("{accountId:long}")]
@@ -21,9 +30,7 @@ public class TransactionController : Controller
         int pageSize = 10
     )
     {
-        var clientIdString = HttpContext.Session.GetString("ClientId");
-        if (!long.TryParse(clientIdString, out var clientId))
-            return RedirectToAction("Index", "Home");
+        var clientId = _userHelper.GetClientId();
 
         if (!await _transactionService.IsAccountOwnedByClient(accountId, clientId))
             return Forbid();
