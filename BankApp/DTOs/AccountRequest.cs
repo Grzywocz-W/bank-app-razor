@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using BankApp.Constants;
-using BankApp.Models;
+using BankApp.Models.Enums;
 
 namespace BankApp.DTOs;
 

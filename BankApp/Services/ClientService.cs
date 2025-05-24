@@ -3,27 +3,31 @@ using BankApp.DTOs;
 using BankApp.Models;
 using BankApp.Repositories;
 using BankApp.Security;
+using BankApp.Validators;
 
 namespace BankApp.Services;
 
 public class ClientService
 {
     private readonly ClientRepository _clientRepository;
+    private readonly ClientValidator _clientValidator;
     private readonly IMapper _mapper;
 
     public ClientService(
         ClientRepository clientRepository,
+        ClientValidator clientValidator,
         IMapper mapper
     )
     {
         _clientRepository = clientRepository;
+        _clientValidator = clientValidator;
         _mapper = mapper;
     }
 
     public async Task<ClientResponse> FindById(long clientId)
     {
         var client = await _clientRepository.FindByIdAsync(clientId);
-        ValidateClient(client);
+        _clientValidator.ValidateClient(client);
 
         return _mapper.Map<ClientResponse>(client);
     }
@@ -34,7 +38,7 @@ public class ClientService
     )
     {
         var client = await _clientRepository.FindByLoginAsync(login);
-        ValidateClient(client);
+        _clientValidator.ValidateClient(client);
 
         if (!PasswordHasher.Verify(password, client.Password))
             throw new ArgumentException("Invalid password.");
@@ -58,17 +62,11 @@ public class ClientService
     public async Task RemoveByLogin(string login)
     {
         var client = await _clientRepository.FindByLoginAsync(login);
-        ValidateClient(client);
+        _clientValidator.ValidateClient(client);
 
         if (client.GetBalance() > 0)
             throw new InvalidOperationException("Client balance must be zero before deletion.");
 
         await _clientRepository.DeleteAsync(client);
-    }
-
-    private static void ValidateClient(Client client)
-    {
-        if (client == null)
-            throw new ArgumentException("Client not found.");
     }
 }

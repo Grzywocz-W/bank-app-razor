@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using BankApp.Constants;
 using BankApp.DTOs;
-using BankApp.Helpers;
 using BankApp.Models;
 using BankApp.Repositories;
+using BankApp.Validators;
 
 namespace BankApp.Services;
 
@@ -12,22 +12,22 @@ public class AccountService
     private readonly AccountRepository _accountRepository;
     private readonly TransactionService _transactionService;
     private readonly CurrencyService _currencyService;
-    private readonly UserHelper _userHelper;
+    private readonly AccountValidator _accountValidator;
     private readonly IMapper _mapper;
 
     public AccountService(
         AccountRepository accountRepository,
         TransactionService transactionService,
         CurrencyService currencyService,
-        IMapper mapper,
-        UserHelper userHelper
+        AccountValidator accountValidator,
+        IMapper mapper
     )
     {
         _accountRepository = accountRepository;
         _transactionService = transactionService;
         _currencyService = currencyService;
+        _accountValidator = accountValidator;
         _mapper = mapper;
-        _userHelper = userHelper;
     }
 
     public async Task Save(AccountRequest accountRequest)
@@ -49,14 +49,13 @@ public class AccountService
         if (fromId == toId)
             throw new ArgumentException("From and To accounts must be different.");
 
-        if (!await IsAccountOwnedByClient(fromId, _userHelper.GetClientId()))
-            throw new UnauthorizedAccessException("You are not the owner of the source account.");
+        await _accountValidator.ValidateAccountOwnership(fromId);
 
         var fromAccount = await _accountRepository.FindByIdAsync(fromId);
         var toAccount = await _accountRepository.FindByIdAsync(toId);
-        ValidateAccount(fromAccount);
-        ValidateAccount(toAccount);
-        ValidateAmountAndBalance(amount, fromAccount);
+        _accountValidator.ValidateAccount(fromAccount);
+        _accountValidator.ValidateAccount(toAccount);
+        _accountValidator.ValidateAmountAndBalance(amount, fromAccount);
 
         var convertedAmount = amount;
 
@@ -65,7 +64,7 @@ public class AccountService
             var rates = await _currencyService.GetCurrencyRatesAsync();
 
             if (
-                !rates.Rates.TryGetValue(toAccount.Currency.ToString(), out var targetRate) ||
+                !rates!.Rates.TryGetValue(toAccount.Currency.ToString(), out var targetRate) ||
                 !rates.Rates.TryGetValue(fromAccount.Currency.ToString(), out var sourceRate)
             )
                 throw new InvalidOperationException("Currency rate not available.");
@@ -95,12 +94,11 @@ public class AccountService
         decimal amount
     )
     {
-        if (!await IsAccountOwnedByClient(id, _userHelper.GetClientId()))
-            throw new UnauthorizedAccessException("You are not the owner of the source account.");
-        
+        await _accountValidator.ValidateAccountOwnership(id);
+
         var account = await _accountRepository.FindByIdAsync(id);
-        ValidateAccount(account);
-        ValidateAmountAndBalance(amount, account);
+        _accountValidator.ValidateAccount(account);
+        _accountValidator.ValidateAmountAndBalance(amount, account);
 
         account.Balance -= amount;
         await _accountRepository.SaveAsync(account);
@@ -116,38 +114,14 @@ public class AccountService
 
     public async Task Delete(long accountId)
     {
-        if (!await IsAccountOwnedByClient(accountId, _userHelper.GetClientId()))
-            throw new UnauthorizedAccessException("You are not the owner of the source account.");
-        
+        await _accountValidator.ValidateAccountOwnership(accountId);
+
         var account = await _accountRepository.FindByIdAsync(accountId);
-        ValidateAccount(account);
+        _accountValidator.ValidateAccount(account);
 
         if (account.Balance != 0)
             throw new InvalidOperationException("Cannot delete account with non-zero balance.");
 
         await _accountRepository.DeleteAsync(account);
-    }
-
-    private async Task<bool> IsAccountOwnedByClient(long accountId, long clientId)
-    {
-        return await _accountRepository.IsAccountOwnedByClientAsync(accountId, clientId);
-    }
-
-    private static void ValidateAccount(Account? account)
-    {
-        if (account == null)
-            throw new ArgumentException("Account not found.");
-    }
-
-    private static void ValidateAmountAndBalance(
-        decimal amount,
-        Account account
-    )
-    {
-        if (amount is < 0 or > (decimal)AccountConstraints.MaxValue)
-            throw new InvalidOperationException("Invalid amount.");
-
-        if (account.Balance < amount)
-            throw new InvalidOperationException("Insufficient balance.");
     }
 }
