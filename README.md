@@ -31,9 +31,15 @@ User authentication is managed using ASP.NET Core Cookie Authentication, which p
 ## App Screenshot
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/f5150261-32ee-47a7-af91-ea7822a8d77a" height="200"/>
-  <img src="https://github.com/user-attachments/assets/19d0ddc8-4304-4a56-84a3-50e88c4b1902" height="200"/>
-  <img src="https://github.com/user-attachments/assets/2c5b5fe6-b4b4-42f9-a573-f2112d05b8a4" height="200"/>
+  <img src="https://github.com/user-attachments/assets/f5150261-32ee-47a7-af91-ea7822a8d77a" height="250"/>
+  <img src="https://github.com/user-attachments/assets/19d0ddc8-4304-4a56-84a3-50e88c4b1902" height="250"/>
+  <img src="https://github.com/user-attachments/assets/2c5b5fe6-b4b4-42f9-a573-f2112d05b8a4" height="250"/>
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b7776cc3-1044-4b3c-9fe8-71b7af3a1cf4" height="250"/>
+  <img src="https://github.com/user-attachments/assets/43b4590e-f979-4a81-9e01-54d2aee96411" height="250"/>
+  <img src="https://github.com/user-attachments/assets/a076a682-2055-4c03-8424-072a9f3278f6" height="250"/>
 </p>
 
 ## Technologies Used 
