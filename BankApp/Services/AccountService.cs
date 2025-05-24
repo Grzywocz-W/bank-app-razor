@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BankApp.Constants;
 using BankApp.DTOs;
+using BankApp.Helpers;
 using BankApp.Models;
 using BankApp.Repositories;
 
@@ -11,19 +12,22 @@ public class AccountService
     private readonly AccountRepository _accountRepository;
     private readonly TransactionService _transactionService;
     private readonly CurrencyService _currencyService;
+    private readonly UserHelper _userHelper;
     private readonly IMapper _mapper;
 
     public AccountService(
         AccountRepository accountRepository,
         TransactionService transactionService,
         CurrencyService currencyService,
-        IMapper mapper
+        IMapper mapper,
+        UserHelper userHelper
     )
     {
         _accountRepository = accountRepository;
         _transactionService = transactionService;
         _currencyService = currencyService;
         _mapper = mapper;
+        _userHelper = userHelper;
     }
 
     public async Task Save(AccountRequest accountRequest)
@@ -44,6 +48,9 @@ public class AccountService
     {
         if (fromId == toId)
             throw new ArgumentException("From and To accounts must be different.");
+
+        if (!await IsAccountOwnedByClient(fromId, _userHelper.GetClientId()))
+            throw new UnauthorizedAccessException("You are not the owner of the source account.");
 
         var fromAccount = await _accountRepository.FindByIdAsync(fromId);
         var toAccount = await _accountRepository.FindByIdAsync(toId);
@@ -88,6 +95,9 @@ public class AccountService
         decimal amount
     )
     {
+        if (!await IsAccountOwnedByClient(id, _userHelper.GetClientId()))
+            throw new UnauthorizedAccessException("You are not the owner of the source account.");
+        
         var account = await _accountRepository.FindByIdAsync(id);
         ValidateAccount(account);
         ValidateAmountAndBalance(amount, account);
@@ -106,6 +116,9 @@ public class AccountService
 
     public async Task Delete(long accountId)
     {
+        if (!await IsAccountOwnedByClient(accountId, _userHelper.GetClientId()))
+            throw new UnauthorizedAccessException("You are not the owner of the source account.");
+        
         var account = await _accountRepository.FindByIdAsync(accountId);
         ValidateAccount(account);
 
@@ -113,6 +126,11 @@ public class AccountService
             throw new InvalidOperationException("Cannot delete account with non-zero balance.");
 
         await _accountRepository.DeleteAsync(account);
+    }
+
+    private async Task<bool> IsAccountOwnedByClient(long accountId, long clientId)
+    {
+        return await _accountRepository.IsAccountOwnedByClientAsync(accountId, clientId);
     }
 
     private static void ValidateAccount(Account? account)
