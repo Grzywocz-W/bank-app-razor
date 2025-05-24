@@ -1,7 +1,7 @@
 using System.Globalization;
 using BankApp.Data;
-using BankApp.Helpers;
 using BankApp.Mappers;
+using BankApp.Providers;
 using BankApp.Repositories;
 using BankApp.Services;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +16,7 @@ builder.Services.AddScoped<ClientService>();
 builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<TransactionService>();
 builder.Services.AddHttpClient<CurrencyService>();
-builder.Services.AddScoped<UserHelper>();
+builder.Services.AddScoped<CurrentUserProvider>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

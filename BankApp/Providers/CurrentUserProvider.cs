@@ -1,12 +1,12 @@
 using System.Security.Claims;
 
-namespace BankApp.Helpers;
+namespace BankApp.Providers;
 
-public class UserHelper
+public class CurrentUserProvider
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public UserHelper(IHttpContextAccessor httpContextAccessor)
+    public CurrentUserProvider(IHttpContextAccessor httpContextAccessor)
     {
         _httpContextAccessor = httpContextAccessor;
     }

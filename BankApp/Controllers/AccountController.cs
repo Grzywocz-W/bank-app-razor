@@ -1,5 +1,5 @@
 ﻿using BankApp.DTOs;
-using BankApp.Helpers;
+using BankApp.Providers;
 using BankApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,15 +11,15 @@ namespace BankApp.Controllers;
 public class AccountController : Controller
 {
     private readonly AccountService _accountService;
-    private readonly UserHelper _userHelper;
+    private readonly CurrentUserProvider _currentUserProvider;
 
     public AccountController(
         AccountService accountService,
-        UserHelper userHelper
+        CurrentUserProvider currentUserProvider
     )
     {
         _accountService = accountService;
-        _userHelper = userHelper;
+        _currentUserProvider = currentUserProvider;
     }
 
     [HttpGet("create")]
@@ -31,7 +31,7 @@ public class AccountController : Controller
     [HttpPost("create")]
     public async Task<IActionResult> Create([FromForm] AccountRequest accountRequest)
     {
-        var clientId = _userHelper.GetClientId();
+        var clientId = _currentUserProvider.GetClientId();
         accountRequest.ClientId = clientId;
 
         try

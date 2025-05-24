@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using BankApp.DTOs;
-using BankApp.Helpers;
+using BankApp.Providers;
 using BankApp.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -12,15 +12,15 @@ namespace BankApp.Controllers;
 public class ClientController : Controller
 {
     private readonly ClientService _clientService;
-    private readonly UserHelper _userHelper;
+    private readonly CurrentUserProvider _currentUserProvider;
 
     public ClientController(
         ClientService clientService,
-        UserHelper userHelper
+        CurrentUserProvider currentUserProvider
     )
     {
         _clientService = clientService;
-        _userHelper = userHelper;
+        _currentUserProvider = currentUserProvider;
     }
 
     [HttpGet("register")]
@@ -84,7 +84,7 @@ public class ClientController : Controller
     [HttpGet("dashboard")]
     public async Task<IActionResult> Dashboard()
     {
-        var clientId = _userHelper.GetClientId();
+        var clientId = _currentUserProvider.GetClientId();
         var client = await _clientService.FindById(clientId);
 
         return View(
@@ -108,7 +108,7 @@ public class ClientController : Controller
     [HttpPost("delete")]
     public async Task<IActionResult> Delete()
     {
-        var clientId = _userHelper.GetClientId();
+        var clientId = _currentUserProvider.GetClientId();
         var client = await _clientService.FindById(clientId);
 
         try
