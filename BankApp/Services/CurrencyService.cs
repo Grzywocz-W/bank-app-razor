@@ -6,7 +6,6 @@ public class CurrencyService
 {
     private readonly HttpClient _httpClient;
     private readonly ILogger<CurrencyService> _logger;
-
     // to get value from appsettings.json
     private readonly IConfiguration _configuration;
 
@@ -23,10 +22,7 @@ public class CurrencyService
 
     public async Task<CurrencyResponse?> GetCurrencyRatesAsync()
     {
-        // var accessKey = Environment.GetEnvironmentVariable("CURRENCY_API_KEY");
-        // var apiUrl = Environment.GetEnvironmentVariable("API_URL");
-
-        // We get the value from appsettings.json
+        // base currency is eur
         var apiUrl = _configuration["API_URL"];
         var accessKey = _configuration["CURRENCY_API_KEY"];
         if (string.IsNullOrEmpty(apiUrl))

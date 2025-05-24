@@ -1,4 +1,4 @@
-﻿using BankApp.Models;
+﻿using BankApp.Models.Enums;
 
 namespace BankApp.DTOs;
 

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using BankApp.Models.Enums;
 
 namespace BankApp.Models;
 
@@ -22,7 +23,7 @@ public class Transaction
 
     [Column("TO_ACCOUNT_ID")] public long? ToAccountId { get; init; }
 
-    // (lazy loading, optional)
+    // (lazy loading)
     public Account? FromAccount { get; init; }
     public Account? ToAccount { get; init; }
 }
