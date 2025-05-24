@@ -4,6 +4,7 @@ using BankApp.Mappers;
 using BankApp.Providers;
 using BankApp.Repositories;
 using BankApp.Services;
+using BankApp.Validators;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,8 @@ builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<TransactionService>();
 builder.Services.AddHttpClient<CurrencyService>();
 builder.Services.AddScoped<CurrentUserProvider>();
+builder.Services.AddScoped<AccountValidator>();
+builder.Services.AddScoped<ClientValidator>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

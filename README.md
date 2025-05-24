@@ -9,8 +9,7 @@ This project implements a simple bank system with essential functionalities. It 
 - Transactions between accounts (withdrawal, transfer)
 - Viewing transaction history
 - Currency conversion during transfers, using real-time exchange rates from an external API
-
-## Use Case Diagram
+- Cookie-based authentication
 
 ## Database Schema (PostgreSQL hosted on Railway)
 The following is the database schema created using PostgreSQL and hosted on the Railway cloud platform, defining the structure for users, accounts, and transactions.
@@ -26,9 +25,22 @@ Below are the API documentation, created using Swagger, details the available en
   <img src="https://github.com/user-attachments/assets/9b45b2ed-2d63-4d8b-b1af-e82e5eb72fa1">
 </p>
 
-### Authorization and Authentication of Local Users
-User authentication is managed via JWT (JSON Web Tokens), which are issued during the login process. JWTs allow secure authentication for the user and enable protected API access.
+## Authorization and Authentication of Local Users
+User authentication is managed using ASP.NET Core Cookie Authentication, which provides secure login and session management through cookies. This approach enables server-side session tracking and enforces authorization policies based on user roles, ensuring that only authenticated users can access protected resources.
 
+## App Screenshots
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/f5150261-32ee-47a7-af91-ea7822a8d77a" height="210"/>
+  <img src="https://github.com/user-attachments/assets/19d0ddc8-4304-4a56-84a3-50e88c4b1902" height="210"/>
+  <img src="https://github.com/user-attachments/assets/2c5b5fe6-b4b4-42f9-a573-f2112d05b8a4" height="210"/>
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b7776cc3-1044-4b3c-9fe8-71b7af3a1cf4" height="240"/>
+  <img src="https://github.com/user-attachments/assets/43b4590e-f979-4a81-9e01-54d2aee96411" height="240"/>
+  <img src="https://github.com/user-attachments/assets/a076a682-2055-4c03-8424-072a9f3278f6" height="240"/>
+</p>
 
 ## Technologies Used 
 - C#
@@ -39,6 +51,7 @@ User authentication is managed via JWT (JSON Web Tokens), which are issued durin
 - AutoMapper
 - BCrypt.Net for passwords hashing
 - Swagger for API documentation
+- ASP.NET Core Cookie Authentication
 
 ## Useful Applications 
 - Postman
