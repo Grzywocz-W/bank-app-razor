@@ -1,5 +1,9 @@
-﻿using BankApp.DTOs;
+﻿using System.Security.Claims;
+using BankApp.DTOs;
+using BankApp.Helpers;
 using BankApp.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankApp.Controllers;
@@ -8,14 +12,19 @@ namespace BankApp.Controllers;
 public class ClientController : Controller
 {
     private readonly ClientService _clientService;
+    private readonly UserHelper _userHelper;
 
-    public ClientController(ClientService clientService)
+    public ClientController(
+        ClientService clientService,
+        UserHelper userHelper
+    )
     {
         _clientService = clientService;
+        _userHelper = userHelper;
     }
 
     [HttpGet("register")]
-    public IActionResult Register() => View();
+    public IActionResult Register() => View(new RegisterRequest());
 
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromForm] RegisterRequest registerRequest)
@@ -39,7 +48,7 @@ public class ClientController : Controller
     }
 
     [HttpGet("login")]
-    public IActionResult Login() => View();
+    public IActionResult Login() => View(new LoginRequest());
 
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromForm] LoginRequest loginRequest)
@@ -51,7 +60,17 @@ public class ClientController : Controller
                 loginRequest.Password
             );
 
-            HttpContext.Session.SetString("ClientId", client.ClientId.ToString());
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, client.ClientId.ToString()),
+                new Claim(ClaimTypes.Name, client.Login)
+            };
+
+            var identity = new ClaimsIdentity(claims, "MyCookieAuth");
+            var principal = new ClaimsPrincipal(identity);
+
+            await HttpContext.SignInAsync("MyCookieAuth", principal);
+
             return RedirectToAction("Dashboard", "Client");
         }
         catch (Exception ex)
@@ -61,15 +80,12 @@ public class ClientController : Controller
         }
     }
 
+    [Authorize]
     [HttpGet("dashboard")]
     public async Task<IActionResult> Dashboard()
     {
-        var clientIdString = HttpContext.Session.GetString("ClientId");
-        if (!long.TryParse(clientIdString, out var clientId))
-            return RedirectToAction("Index", "Home");
-
+        var clientId = _userHelper.GetClientId();
         var client = await _clientService.FindById(clientId);
-        ViewData["ClientId"] = clientId;
 
         return View(
             client.Accounts
@@ -78,30 +94,26 @@ public class ClientController : Controller
         );
     }
 
+    [Authorize]
     [HttpPost("logout")]
-    public IActionResult Logout()
+    public async Task<IActionResult> Logout()
     {
-        HttpContext.Session.Remove("ClientId");
+        await HttpContext.SignOutAsync("MyCookieAuth");
         TempData["Success"] = "You have been logged out successfully.";
+        
         return RedirectToAction("Index", "Home");
     }
 
+    [Authorize]
     [HttpPost("delete")]
     public async Task<IActionResult> Delete()
     {
-        var clientIdString = HttpContext.Session.GetString("ClientId");
-        if (!long.TryParse(clientIdString, out var clientId))
-        {
-            TempData["Error"] = "You must be logged in to delete your account.";
-            return RedirectToAction("Login", "Client");
-        }
-
+        var clientId = _userHelper.GetClientId();
         var client = await _clientService.FindById(clientId);
 
         try
         {
             await _clientService.RemoveByLogin(client.Login);
-            HttpContext.Session.Remove("ClientId");
             TempData["Success"] = "Client account deleted successfully.";
             return RedirectToAction("Index", "Home");
         }

@@ -1,17 +1,25 @@
 ﻿using BankApp.DTOs;
+using BankApp.Helpers;
 using BankApp.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankApp.Controllers;
 
+[Authorize]
 [Route("account")]
 public class AccountController : Controller
 {
     private readonly AccountService _accountService;
+    private readonly UserHelper _userHelper;
 
-    public AccountController(AccountService accountService)
+    public AccountController(
+        AccountService accountService,
+        UserHelper userHelper
+    )
     {
         _accountService = accountService;
+        _userHelper = userHelper;
     }
 
     [HttpGet("create")]
@@ -23,14 +31,9 @@ public class AccountController : Controller
     [HttpPost("create")]
     public async Task<IActionResult> Create([FromForm] AccountRequest accountRequest)
     {
-        var clientIdString = HttpContext.Session.GetString("ClientId");
-        if (!long.TryParse(clientIdString, out var clientId))
-        {
-            TempData["Error"] = "You must be logged in to create an account.";
-            return RedirectToAction("Index", "Home");
-        }
-
+        var clientId = _userHelper.GetClientId();
         accountRequest.ClientId = clientId;
+
         try
         {
             await _accountService.Save(accountRequest);

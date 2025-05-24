@@ -52,4 +52,13 @@ public class AccountRepository
             await _context.SaveChangesAsync();
         }
     }
+
+    public async Task<bool> IsAccountOwnedByClientAsync(
+        long accountId,
+        long clientId
+    )
+    {
+        return await _context.Accounts
+            .AnyAsync(a => a.AccountId == accountId && a.ClientId == clientId);
+    }
 }
