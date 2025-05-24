@@ -1,4 +1,4 @@
-using BankApp.Helpers;
+using BankApp.Providers;
 using BankApp.Services;
 using BankApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -12,15 +12,15 @@ namespace BankApp.Controllers;
 public class TransactionController : Controller
 {
     private readonly TransactionService _transactionService;
-    private readonly UserHelper _userHelper;
+    private readonly CurrentUserProvider _currentUserProvider;
 
     public TransactionController(
         TransactionService transactionService,
-        UserHelper userHelper
+        CurrentUserProvider currentUserProvider
     )
     {
         _transactionService = transactionService;
-        _userHelper = userHelper;
+        _currentUserProvider = currentUserProvider;
     }
 
     [HttpGet("{accountId:long}")]
@@ -30,7 +30,7 @@ public class TransactionController : Controller
         int pageSize = 10
     )
     {
-        var clientId = _userHelper.GetClientId();
+        var clientId = _currentUserProvider.GetClientId();
 
         if (!await _transactionService.IsAccountOwnedByClient(accountId, clientId))
             return Forbid();

@@ -1,6 +1,6 @@
 using BankApp.Constants;
-using BankApp.Helpers;
 using BankApp.Models;
+using BankApp.Providers;
 using BankApp.Repositories;
 
 namespace BankApp.Validators;
@@ -8,15 +8,15 @@ namespace BankApp.Validators;
 public class AccountValidator
 {
     private readonly AccountRepository _accountRepository;
-    private readonly UserHelper _userHelper;
+    private readonly CurrentUserProvider _currentUserProvider;
 
     public AccountValidator(
         AccountRepository accountRepository,
-        UserHelper userHelper
+        CurrentUserProvider currentUserProvider
     )
     {
         _accountRepository = accountRepository;
-        _userHelper = userHelper;
+        _currentUserProvider = currentUserProvider;
     }
 
     public void ValidateAccount(Account? account)
@@ -39,7 +39,7 @@ public class AccountValidator
 
     public async Task ValidateAccountOwnership(long accountId)
     {
-        var clientId = _userHelper.GetClientId();
+        var clientId = _currentUserProvider.GetClientId();
         if (!await _accountRepository.IsAccountOwnedByClientAsync(accountId, clientId))
             throw new UnauthorizedAccessException("You are not the owner of the source account.");
     }
