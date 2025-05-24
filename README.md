@@ -25,10 +25,10 @@ Below are the API documentation, created using Swagger, details the available en
   <img src="https://github.com/user-attachments/assets/9b45b2ed-2d63-4d8b-b1af-e82e5eb72fa1">
 </p>
 
-### Authorization and Authentication of Local Users
+## Authorization and Authentication of Local Users
 User authentication is managed using ASP.NET Core Cookie Authentication, which provides secure login and session management through cookies. This approach enables server-side session tracking and enforces authorization policies based on user roles, ensuring that only authenticated users can access protected resources.
 
-## App Screenshot
+## App Screenshots
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/f5150261-32ee-47a7-af91-ea7822a8d77a" height="210"/>
