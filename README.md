@@ -37,8 +37,8 @@ User authentication is implemented using the BCrypt.Net library, which provides 
 </p>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/2c5b5fe6-b4b4-42f9-a573-f2112d05b8a4" height="270"/>
-  <img src="https://github.com/user-attachments/assets/b7776cc3-1044-4b3c-9fe8-71b7af3a1cf4" height="270"/>
+  <img src="https://github.com/user-attachments/assets/2c5b5fe6-b4b4-42f9-a573-f2112d05b8a4" height="275"/>
+  <img src="https://github.com/user-attachments/assets/b7776cc3-1044-4b3c-9fe8-71b7af3a1cf4" height="275"/>
 </p>
 
 <p align="center">
