@@ -28,7 +28,7 @@ Below are the API documentation, created using Swagger, details the available en
 ## Authorization and Authentication of Local Users
 User authentication is implemented using the BCrypt.Net library, which provides secure password hashing and verification. Upon successful login, the application uses ASP.NET Core Cookie Authentication to manage the user's session. This approach enables server-side session tracking and enforces authorization policies based on user roles, ensuring that only authenticated users can access protected resources.
 
-## App Screenshots
+## Application Interface Presentation
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/f5150261-32ee-47a7-af91-ea7822a8d77a" height="220"/>
@@ -37,14 +37,14 @@ User authentication is implemented using the BCrypt.Net library, which provides 
 </p>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/2c5b5fe6-b4b4-42f9-a573-f2112d05b8a4" height="220"/>
-  <img src="https://github.com/user-attachments/assets/b7776cc3-1044-4b3c-9fe8-71b7af3a1cf4" height="220"/>
+  <img src="https://github.com/user-attachments/assets/2c5b5fe6-b4b4-42f9-a573-f2112d05b8a4" height="270"/>
+  <img src="https://github.com/user-attachments/assets/b7776cc3-1044-4b3c-9fe8-71b7af3a1cf4" height="270"/>
 </p>
 
 <p align="center">
   
-  <img src="https://github.com/user-attachments/assets/43b4590e-f979-4a81-9e01-54d2aee96411" height="220"/>
-  <img src="https://github.com/user-attachments/assets/a076a682-2055-4c03-8424-072a9f3278f6" height="220"/>
+  <img src="https://github.com/user-attachments/assets/43b4590e-f979-4a81-9e01-54d2aee96411" height="305"/>
+  <img src="https://github.com/user-attachments/assets/a076a682-2055-4c03-8424-072a9f3278f6" height="305"/>
 </p>
 
 ## Technologies Used 
