@@ -1,7 +1,7 @@
 # Web Bank Application built with C# ASP.NET Core MVC and Razor Views
 
 ## Project Description
-This project implements a simple bank system with essential functionalities. It is a web application built using ASP.NET Core MVC, with Razor Views rendering server-side HTML pages. The backend exposes HTTP endpoints that handle business logic and serve these views. While the application provides RESTful-style endpoints, it is not a pure REST API returning JSON, but rather a server-rendered web app with HTTP endpoints delivering HTML content. This project was created as part of a university coursework.
+This project implements a simple bank system with essential functionalities. It is a web application built using ASP.NET Core MVC, with Razor Views rendering server-side HTML pages. The backend exposes HTTP endpoints that handle business logic and serve these views. While the application provides RESTful-style endpoints, it is not a pure REST API returning JSON, but rather a server-rendered web app with HTTP endpoints delivering HTML content. Additionally, the application is containerized using Docker. This project was created as part of a university coursework.
 
 ## Key Functionalities of the Project
 - User registration and login
@@ -62,3 +62,4 @@ User authentication is implemented using the BCrypt.Net library, which provides 
 - Postman
 - JetBrains Rider
 - GitHub
+- Docker Desktop
