@@ -22,7 +22,6 @@ obj/
 *.sln.iml
 
 bankapp-secure.tar
-Dockerfile
 .git
 
 # .NET build artifacts
